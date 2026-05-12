@@ -3,67 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مێژووی قەزاری سیدسادق</title>
+    <title>مێژووی سەید سادق</title>
     
-    <!-- فۆنتی Vazirmatn کە بۆ مۆبایل بێ کێشەیە -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --primary-color: #2c3e50; --accent-color: #e67e22; --bg-light: #f8f9fa; --text-dark: #333; --text-light: #fff; }
+        :root { 
+            --dark-bg: #0A141D; 
+            --gold-accent: #D4AF37; 
+            --text-light: #F8F9FA;
+            --text-dim: #C0C8D0;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Vazirmatn', Tahoma, Arial, sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--dark-bg); color: var(--text-light); overflow-x: hidden; }
 
-        nav { position: fixed; top: 0; width: 100%; padding: 20px 5vw; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(44, 62, 80, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
-        nav h1 { color: var(--text-light); font-size: 24px; font-weight: 800; }
-        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
-        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s; }
-        nav ul li a:hover { color: var(--accent-color); }
-        .active-link { color: var(--accent-color) !important; }
-        .menu-btn { display: none; color: var(--text-light); font-size: 28px; cursor: pointer; z-index: 1001; }
+        /* Navbar */
+        nav { 
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); 
+            width: 90%; max-width: 1200px; padding: 15px 40px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            z-index: 1000; border-radius: 50px;
+            background: rgba(10, 20, 29, 0.85); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        nav h1 { color: var(--gold-accent); font-size: 24px; font-weight: 900;}
+        nav ul { list-style: none; display: flex; gap: 30px; align-items: center; }
+        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 500; position: relative; padding: 5px 0;}
+        nav ul li a::after { content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px; background: var(--gold-accent); transition: width 0.4s; }
+        nav ul li a:hover::after, .active-link::after { width: 100%; }
+        nav ul li a:hover, .active-link { color: var(--gold-accent); }
+        .menu-btn { display: none; color: var(--gold-accent); font-size: 28px; cursor: pointer; z-index: 1001; }
 
-        .section-title { font-size: clamp(2rem, 4vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px; position: relative; display: inline-block;}
-        .section-title::after { content: ''; width: 60px; height: 4px; background-color: var(--accent-color); display: block; margin: 10px 0 0; border-radius: 2px; }
+        /* Premium History Layout */
+        .history-wrapper { padding: 150px 5vw 100px; max-width: 1300px; margin: 0 auto; display: flex; flex-direction: column; gap: 120px; }
         
-        /* ڕێکخستنی مەودای نێوان هەردوو بەشەکە (مێژوو + ئاوی حەسار) */
-        .history-wrapper { padding: 120px 5vw 80px; display: flex; flex-direction: column; gap: 100px; }
-        
-        .history-block { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
-        .history-text { flex: 1; min-width: 300px; }
-        .history-text p { line-height: 2; margin-bottom: 20px; color: #555; font-size: 1.1rem; text-align: justify; }
-        
-        .history-image { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); position: relative;}
-        .history-image img { width: 100%; height: auto; display: block; transition: transform 0.5s; }
-        .history-image:hover img { transform: scale(1.05); }
+        .history-block { display: flex; align-items: center; justify-content: space-between; gap: 60px; flex-wrap: wrap; }
+        .history-block:nth-child(even) { flex-direction: row-reverse; }
 
-        footer { background-color: var(--primary-color); color: var(--text-light); text-align: center; padding: 30px 5vw; font-size: 0.95rem; line-height: 1.8; }
-        footer p { margin-bottom: 5px; }
-        footer .owner { font-weight: 600; color: #bbb; font-size: 0.85rem;}
-        footer a { display: inline-flex; align-items: center; gap: 8px; color: #1877F2; background-color: #fff; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+        .history-text { flex: 1; min-width: 300px; animation: slideInRight 1s ease-out; }
+        .history-block:nth-child(even) .history-text { animation: slideInLeft 1s ease-out; }
+        
+        .section-title { 
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin-bottom: 30px; color: #fff;
+            position: relative; display: inline-block;
+        }
+        .section-title::before {
+            content: ''; position: absolute; right: -20px; top: 10px; width: 5px; height: 80%;
+            background: var(--gold-accent); border-radius: 5px;
+        }
+
+        .history-text p { 
+            line-height: 2.2; margin-bottom: 25px; color: var(--text-dim); font-size: 1.15rem; 
+            text-align: justify; font-weight: 300;
+        }
+
+        .image-container { flex: 1; min-width: 320px; position: relative; padding: 20px; animation: fadeIn 1.5s ease; }
+        
+        /* The Gold Frame Effect */
+        .image-container::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 80%; height: 80%;
+            border: 3px solid var(--gold-accent); border-radius: 20px; z-index: 0; transition: all 0.5s;
+        }
+        
+        .history-image { 
+            position: relative; z-index: 1; border-radius: 20px; overflow: hidden; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); transform: translate(-20px, 20px); transition: transform 0.5s;
+        }
+        .history-image img { width: 100%; height: auto; display: block; filter: brightness(0.9); transition: transform 0.8s, filter 0.5s; }
+        
+        /* Image Hover Effect */
+        .image-container:hover .history-image { transform: translate(-10px, 10px); }
+        .image-container:hover img { transform: scale(1.08); filter: brightness(1.1); }
+        .image-container:hover::before { top: 10px; right: 10px; }
+
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Footer */
+        footer { background-color: #06111A; text-align: center; padding: 40px 5vw; line-height: 2; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { color: #888; }
+        footer .owner { font-weight: 500; color: #aaa; font-size: 0.85rem;}
+        footer a { display: inline-flex; align-items: center; gap: 8px; color: #06111A; background-color: var(--gold-accent); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+
+        @media (max-width: 900px) {
+            .history-block { gap: 40px; }
+            .history-block:nth-child(even) { flex-direction: column; }
+            .image-container { padding: 10px; }
+            .history-image { transform: translate(0, 0); }
+            .image-container::before { width: 100%; height: 100%; top: -10px; right: -10px; border-width: 2px;}
+            .image-container:hover .history-image { transform: translate(0, 0); }
+        }
 
         @media (max-width: 768px) {
-            nav { padding: 15px 5vw; }
-            nav h1 { font-size: 22px; z-index: 1001; }
+            nav { width: 95%; padding: 15px 25px; border-radius: 20px;}
             .menu-btn { display: block; }
-            nav ul { position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh; background-color: rgba(44, 62, 80, 0.98); flex-direction: column; justify-content: center; transition: right 0.4s ease-in-out; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh; background: rgba(10, 20, 29, 0.98); flex-direction: column; justify-content: center; transition: right 0.5s; }
             nav ul.active { right: 0; }
-            nav ul li a { font-size: 22px; display: block; padding: 15px; }
-            
-            .history-block { gap: 30px; }
-            .history-wrapper { gap: 60px; padding-top: 100px;}
-            
-            /* بۆ ئەوەی لەسەر مۆبایل وێنەکان هەمیشە بکەونە سەرووی نووسینەکە */
-            .history-image { order: -1; } 
+            nav ul li a { font-size: 24px; display: block; padding: 15px; }
+            .history-wrapper { gap: 80px; padding-top: 120px; }
+            .section-title::before { right: -15px; }
         }
     </style>
 </head>
 <body>
 
     <nav id="navbar">
-        <h1>قەزاری سیدسادق</h1>
-        <div class="menu-btn" id="menu-btn"><i class="fa-solid fa-bars"></i></div>
+        <h1>سەید سادق</h1>
+        <div class="menu-btn" id="menu-btn"><i class="fa-solid fa-bars-staggered"></i></div>
         <ul id="nav-links">
             <li><a href="index.html">سەرەتا</a></li>
             <li><a href="history.html" class="active-link">مێژوو</a></li>
@@ -71,13 +121,13 @@
         </ul>
     </nav>
 
-    <!-- لێرەوە بەشی مێژوو و ئاوی حەسار دەست پێدەکات -->
     <div class="history-wrapper">
-        
-        <!-- بڕگەی یەکەم: مێژووی سەید سادق -->
         <section class="history-block">
-            <div class="history-image">
-                <img src="saidsadiq-history.jpg" alt="وێنەی ناو سەید سادق">
+            <div class="image-container">
+                <div class="history-image">
+                    <!-- وێنەی یەکەم (چیاکە) لێرە دابنێ -->
+                    <img src="saidsadiq-history.jpg" alt="وێنەی ناو سەید سادق">
+                </div>
             </div>
             <div class="history-text">
                 <h2 class="section-title">مێژووە دەوڵەمەندەکەمان</h2>
@@ -86,25 +136,25 @@
             </div>
         </section>
 
-        <!-- بڕگەی دووەم: ئاوی حەسار (ئەمەیان تازەیە) -->
         <section class="history-block">
             <div class="history-text">
                 <h2 class="section-title">سەرچاوەی ئاوی حەسار</h2>
                 <p>یەکێک لە سامانە سروشتییە هەرە گرنگەکانی ناوچەکە، سەرچاوەی ئاوی حەسارە. ئەم سەرچاوە ئاوییە کە دەکەوێتە بناری چیاکانی دەوروبەری قەزاکە، نەک تەنها دیمەنێکی ئێجگار جوانی بەخشیوە بە سەید سادق، بەڵکو دەمارێکی سەرەکییە بۆ ژیانی کشتوکاڵی لە دەشتی شارەزووردا.</p>
                 <p>ئاوی حەسار هۆکارێکی گەورەیە بۆ بەرهەمهێنانی بەروبوومە کشتوکاڵییەکانی وەک گەنم، جۆ، و سەوزەوات. هەروەها لە وەرزی بەهار و هاویندا دەبێتە شوێنێکی گەشتیاری دڵڕفێن و خەڵکێکی زۆر بۆ پشوو و سەیران ڕووی تێدەکەن و کاتێکی خۆشی تێدا بەسەر دەبەن.</p>
             </div>
-            <div class="history-image">
-                <img src="hasar-spring.jpg" alt="سەرچاوەی ئاوی حەسار">
+            <div class="image-container">
+                <div class="history-image">
+                    <!-- وێنەی دووەم (دەریاچەکە/سەرچاوەکە) لێرە دابنێ -->
+                    <img src="hasar-spring.jpg" alt="سەرچاوەی ئاوی حەسار">
+                </div>
             </div>
         </section>
-
     </div>
-    <!-- کۆتایی بەشەکان -->
 
     <footer>
         <p>&copy; 2026 دۆزینەوەی سەید سادق. بە خۆشەویستییەوە دروستکراوە.</p>
-        <p class="owner">Ownership: Zhiary Dktor Faraj</p>
-        <a href="https://www.facebook.com/share/18TC1wHYRo/?mibextid=wwXIfr" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+        <p class="owner">خاوەندارێتی: ژیاری دکتۆر فەرەج</p>
+        <a href="https://www.facebook.com/share/18TC1wHYRo/?mibextid=wwXIfr" target="_blank"><i class="fa-brands fa-facebook"></i> فەیسبووک</a>
     </footer>
 
     <script>
@@ -113,8 +163,8 @@
         const menuIcon = menuBtn.querySelector('i');
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            if(navLinks.classList.contains('active')){ menuIcon.classList.replace('fa-bars', 'fa-xmark'); } 
-            else { menuIcon.classList.replace('fa-xmark', 'fa-bars'); }
+            if(navLinks.classList.contains('active')){ menuIcon.classList.replace('fa-bars-staggered', 'fa-xmark'); } 
+            else { menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered'); }
         });
     </script>
 </body>
