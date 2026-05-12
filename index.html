@@ -19,13 +19,13 @@
             --text-light: #F8F9FA;
         }
         
-        /* 100% Strict constraints to prevent horizontal scrolling */
+        /* 100% Strict constraints (بنبڕکردنی کێشەی بۆشایی) */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { overflow-x: hidden; width: 100%; position: relative; }
+        html, body { overflow-x: hidden !important; width: 100%; max-width: 100vw; position: relative; }
         
         body { font-family: 'Vazirmatn', sans-serif; background-color: var(--dark-royal); color: var(--text-light); }
 
-        /* Floating Premium Navbar */
+        /* Navbar */
         nav { 
             position: fixed; top: 25px; left: 50%; transform: translateX(-50%); 
             width: 90%; max-width: 1200px; padding: 15px 40px; 
@@ -42,7 +42,7 @@
         nav ul li a:hover, .active-link { color: var(--gold-accent); }
         .menu-btn { display: none; color: var(--gold-accent); font-size: 28px; cursor: pointer; z-index: 1001; }
 
-        /* Cinematic Hero Section */
+        /* Hero */
         .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; width: 100%; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('saidsadiq-main.jpg') center/cover no-repeat; animation: cinematicZoom 30s infinite alternate linear; z-index: 1; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(11, 29, 46, 0.7), rgba(11, 29, 46, 0.95)); z-index: 2; }
@@ -51,7 +51,6 @@
         .hero-content h2 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; margin-bottom: 10px; background: linear-gradient(45deg, #FFF, var(--gold-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0; animation: fadeUp 1.5s ease forwards 0.5s; }
         .hero-content p { font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 40px; color: #ccc; opacity: 0; animation: fadeUp 1.5s ease forwards 0.8s; font-weight: 300; }
         
-        /* Premium Button */
         .btn { position: relative; overflow: hidden; display: inline-block; padding: 16px 45px; background: transparent; color: var(--gold-accent); border: 2px solid var(--gold-accent); text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: all 0.4s ease; opacity: 0; animation: fadeUp 1.5s ease forwards 1.1s; }
         .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--gold-accent); transition: left 0.4s ease; z-index: -1; }
         .btn:hover { color: var(--dark-royal); box-shadow: 0 15px 25px rgba(212, 175, 55, 0.3); transform: translateY(-5px);}
@@ -65,19 +64,21 @@
         footer p { color: #888; margin-bottom: 5px; }
         footer .owner { font-weight: 500; color: #aaa; font-size: 0.85rem;}
         footer a { display: inline-flex; align-items: center; gap: 8px; color: #06111A; background-color: var(--gold-accent); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: opacity 0.3s; }
-        footer a:hover { opacity: 0.8; }
 
         @media (max-width: 768px) {
             nav { width: 92%; padding: 15px 25px; border-radius: 20px;}
             .menu-btn { display: block; }
-            /* This is the magic fix for mobile overflow: using transform instead of right: -100% */
+            /* چارەسەری کۆتایی کێشەی مۆبایل (ئەنیمەیشنی کاڵبوونەوە) */
             nav ul { 
-                position: fixed; top: 0; right: 0; width: 100%; height: 100vh; 
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
                 background: rgba(11, 29, 46, 0.98); backdrop-filter: blur(20px);
                 flex-direction: column; justify-content: center; 
-                transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1); 
+                opacity: 0; visibility: hidden; pointer-events: none;
+                transform: translateY(-20px); transition: all 0.4s ease; 
             }
-            nav ul.active { transform: translateX(0); }
+            nav ul.active { 
+                opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+            }
             nav ul li a { font-size: 24px; display: block; padding: 15px; text-align: center;}
         }
     </style>
