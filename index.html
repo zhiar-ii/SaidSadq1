@@ -2,273 +2,55 @@
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- ئەم دێڕە زۆر گرنگە بۆ ئەوەی لەسەر مۆبایل شاشەکە خۆی ڕێکبخات -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دۆزینەوەی سەید سادق</title>
+    <title>دۆزینەوەی سەید سادق - سەرەتا</title>
     
+    <!-- گۆڕینی فۆنت بۆ Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #e67e22;
-            --bg-light: #f8f9fa;
-            --text-dark: #333;
-            --text-light: #fff;
-        }
+        :root { --primary-color: #2c3e50; --accent-color: #e67e22; --bg-light: #f8f9fa; --text-dark: #333; --text-light: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* بەکارهێنانی فۆنتە نوێیەکە */
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Noto Sans Arabic', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            overflow-x: hidden;
-        }
-
-        /* --- مینیۆی سەرەوە --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
+        nav { position: fixed; top: 0; width: 100%; padding: 20px 5vw; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; }
         nav h1 { color: var(--text-light); font-size: 24px; font-weight: 800; }
-        
-        nav ul { 
-            list-style: none; 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-        }
-        
-        nav ul li a { 
-            color: var(--text-light); 
-            text-decoration: none; 
-            font-weight: 600; 
-            font-size: 16px; 
-            transition: color 0.3s; 
-        }
-        
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        /* گۆڕینی لینکەکان بۆ ناو فایلەکان */
+        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s; }
         nav ul li a:hover { color: var(--accent-color); }
+        .active-link { color: var(--accent-color) !important; } /* ڕەنگی ئەو پەیجەی تێیدایت */
+        .menu-btn { display: none; color: var(--text-light); font-size: 28px; cursor: pointer; z-index: 1001; transition: color 0.3s; }
 
-        /* دوگمەی مۆبایل (لە شاشەی گەورەدا شاراوەیە) */
-        .menu-btn {
-            display: none;
-            color: var(--text-light);
-            font-size: 28px;
-            cursor: pointer;
-            z-index: 1001;
-            transition: color 0.3s;
-        }
+        .hero { position: relative; height: 100vh; min-height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background-color: #2c3e50; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('saidsadiq-main.jpg') center/cover no-repeat; animation: zoomInOut 25s infinite alternate; z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)); z-index: 2; }
+        @keyframes zoomInOut { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+        .hero-content { position: relative; z-index: 3; color: var(--text-light); animation: fadeInUp 2s ease-out; padding: 0 20px; width: 100%; }
+        .hero-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+        .hero-content p { font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 30px; text-shadow: 1px 1px 5px rgba(0,0,0,0.6); }
+        .btn { display: inline-block; padding: 12px 35px; background-color: var(--accent-color); color: var(--text-light); text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(230, 126, 34, 0.4); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
-        .menu-btn:hover {
-            color: var(--accent-color);
-        }
-
-        /* --- بەشی وێنەی باگراوند --- */
-        .hero {
-            position: relative;
-            height: 100vh;
-            min-height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            background-color: #2c3e50; 
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%;
-            height: 100%;
-            background: url('saidsadiq-main.jpg') center/cover no-repeat;
-            animation: zoomInOut 25s infinite alternate;
-            z-index: 1; 
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8));
-            z-index: 2; 
-        }
-
-        @keyframes zoomInOut {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        .hero-content {
-            position: relative; 
-            z-index: 3; 
-            color: var(--text-light);
-            animation: fadeInUp 2s ease-out;
-            padding: 0 20px;
-            width: 100%;
-        }
-
-        .hero-content h2 {
-            font-size: 4vw;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .hero-content p {
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 35px;
-            background-color: var(--accent-color);
-            color: var(--text-light);
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(230, 126, 34, 0.4);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- بەشەکانی تر --- */
-        .section-title { text-align: center; font-size: clamp(2rem, 4vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px; position: relative; }
-        .section-title::after { content: ''; width: 80px; height: 4px; background-color: var(--accent-color); display: block; margin: 10px auto 0; border-radius: 2px; }
-        
-        section { padding: 80px 5vw; }
-
-        /* بەشی مێژوو */
-        .history { display: flex; align-items: center; gap: 50px; background-color: #fff; flex-wrap: wrap; }
-        .history-text { flex: 1; min-width: 300px; }
-        .history-text p { line-height: 2; margin-bottom: 20px; color: #555; font-size: 1.1rem; text-align: justify; }
-        .history-image { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .history-image img { width: 100%; height: auto; display: block; transition: transform 0.5s; }
-        .history-image:hover img { transform: scale(1.05); }
-
-        /* بەشی گەڕان (کارتەکان) */
-        .directory { background-color: var(--bg-light); }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        
-        .card { background: #fff; border-radius: 15px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 5px; background: var(--accent-color); transform: scaleX(0); transition: transform 0.4s ease; transform-origin: right; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .card:hover::before { transform: scaleX(1); }
-        .card-icon { font-size: 40px; color: var(--primary-color); margin-bottom: 20px; transition: color 0.3s; }
-        .card:hover .card-icon { color: var(--accent-color); }
-        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--primary-color); }
-        .card p { color: #666; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; }
-        .location-link { color: var(--accent-color); text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .location-link:hover { text-decoration: underline; }
-
-        /* بەشی خوارەوە (Footer) */
-        footer { 
-            background-color: var(--primary-color); 
-            color: var(--text-light); 
-            text-align: center; 
-            padding: 30px 5vw; 
-            font-size: 0.95rem; 
-            line-height: 1.8;
-        }
+        footer { background-color: var(--primary-color); color: var(--text-light); text-align: center; padding: 30px 5vw; font-size: 0.95rem; line-height: 1.8; }
         footer p { margin-bottom: 5px; }
         footer .owner { font-weight: 600; color: #bbb; font-size: 0.85rem;}
-        footer a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #1877F2;
-            background-color: #fff;
-            padding: 5px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: transform 0.3s;
-        }
-        footer a:hover {
-            transform: scale(1.05);
-        }
+        footer a { display: inline-flex; align-items: center; gap: 8px; color: #1877F2; background-color: #fff; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; margin-top: 15px; transition: transform 0.3s; }
+        footer a:hover { transform: scale(1.05); }
 
-        /* ====================================================
-           ڕێکخستنی شاشەی مۆبایل (مینیۆی هەمبەرگر)
-        ==================================================== */
         @media (max-width: 768px) {
-            nav { 
-                padding: 15px 5vw; 
-                background: rgba(44, 62, 80, 0.98) !important; /* ڕەنگی نەگۆڕ بۆ مۆبایل */
-            }
-            
+            nav { padding: 15px 5vw; background: rgba(44, 62, 80, 0.98) !important; }
             nav h1 { font-size: 22px; z-index: 1001; }
-            
-            /* دەرخستنی دوگمەی مۆبایل */
             .menu-btn { display: block; }
-            
-            /* شاردنەوەی مینیۆکە بە شێوازی سلاید */
-            nav ul { 
-                position: fixed;
-                top: 0;
-                right: -100%; /* لە دەرەوەی شاشەیە بەلای ڕاستدا */
-                width: 100vw;
-                height: 100vh;
-                background-color: rgba(44, 62, 80, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                transition: right 0.4s ease-in-out;
-            }
-            
-            /* کاتێک مینیۆکە ئەکرێتەوە */
-            nav ul.active {
-                right: 0;
-            }
-
-            nav ul li a { 
-                font-size: 22px; /* گەورەکردنی فۆنت بۆ دەست لێدان */
-                display: block;
-                padding: 15px;
-            }
-            
-            section { padding: 60px 5vw; }
-            .history { gap: 30px; }
-            .card { padding: 25px 15px; }
-        }
-
-        @media (max-width: 480px) {
-            .btn { padding: 10px 25px; font-size: 1rem; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh; background-color: rgba(44, 62, 80, 0.98); flex-direction: column; justify-content: center; transition: right 0.4s ease-in-out; }
+            nav ul.active { right: 0; }
+            nav ul li a { font-size: 22px; display: block; padding: 15px; }
         }
     </style>
 </head>
@@ -276,15 +58,11 @@
 
     <nav id="navbar">
         <h1>سەید سادق</h1>
-        <!-- دوگمەی مۆبایل بۆ کردنەوەی مینیۆ -->
-        <div class="menu-btn" id="menu-btn">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        
+        <div class="menu-btn" id="menu-btn"><i class="fa-solid fa-bars"></i></div>
         <ul id="nav-links">
-            <li><a href="#home">سەرەتا</a></li>
-            <li><a href="#history">مێژوو</a></li>
-            <li><a href="#explore">گەڕان</a></li>
+            <li><a href="index.html" class="active-link">سەرەتا</a></li>
+            <li><a href="history.html">مێژوو</a></li>
+            <li><a href="explore.html">گەڕان</a></li>
         </ul>
     </nav>
 
@@ -292,35 +70,9 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h2>بەخێربێن
-                <br>
-                 بۆ سەید سادق</h2>
+            <h2>بەخێربێن بۆ سەید سادق</h2>
             <p>دڵی دەشتی شارەزوور</p>
-            <a href="#explore" class="btn">دەست بکە بە گەڕان</a>
-        </div>
-    </section>
-
-    <section id="history" class="history">
-        <div class="history-image">
-            <!-- لێرەدا ناوی وێنەی ناو شارۆچکەی سەید سادق دانراوە -->
-            <img src="saidsadiq-history.jpg" alt="وێنەی ناو سەید سادق">
-        </div>
-        <div class="history-text">
-            <h2 class="section-title">مێژووە دەوڵەمەندەکەمان</h2>
-            <p>سەید سادق یەکێکە لە شارۆچکە گرنگەکانی پارێزگای سلێمانی، دەکەوێتە ناوەڕاستی دەشتی شارەزووری پڕ پیت و بەرەکەت. ئەم ناوچەیە خاوەنی مێژوویەکی دێرینە و لە مێژووی کۆنەوە لانکەی چەندین شارستانیەت بووە و ژیانی تێدا بووە.</p>
-            <p>لە ئێستادا، سەید سادق ناوچەیەکی زیندووە کە ڕابردوو و داهاتوو بەیەکەوە دەبەستێتەوە. لە زەوییە کشتوکاڵییە بەپیتەکانییەوە کە بژێوی ناوچەکە دابین دەکەن، تا دەگاتە خەڵکە دڵسۆز و میواندۆستەکەی، ئەم شارۆچکەیە پایەیەکی گرنگی هەرێمی کوردستانە.</p>
-        </div>
-    </section>
-
-    <section id="explore" class="directory">
-        <h2 class="section-title">گەڕان بەناو شارۆچکەکەدا</h2>
-        <div class="grid-container">
-            <div class="card"><i class="fa-solid fa-mountain-sun card-icon"></i><h3>شوێنە گەشتیارییەکان</h3><p>سروشتێکی جوانی هەیە بۆ گەشت و سەیران، گونجاوە بۆ خێزان و هاوڕێیان.</p><a href="https://maps.app.goo.gl/mfthmdT6XfoGYcLx6" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
-            <div class="card"><i class="fa-solid fa-hospital card-icon"></i><h3>نەخۆشخانەی شەهید شەوکەت</h3><p>نەخۆشخانەی گشتی سەرەکی قەزاکەیە بۆ چارەسەر و تەندروستی هاوڵاتیان.</p><a href="https://maps.app.goo.gl/4g5AdidocSLtf7mp7" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
-            <div class="card"><i class="fa-solid fa-gas-pump card-icon"></i><h3>وێستگەی سووتەمەنی</h3><p>وێستگەکانی دابینکردنی بەنزین و گازوایل کە ٢٤ کاتژمێر کراوەن.</p><a href="https://maps.app.goo.gl/UABLAv67N6qQ3kgu8" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
-            <div class="card"><i class="fa-solid fa-shield-halved card-icon"></i><h3>بەڕێوەبەرایەتی پۆلیس</h3><p>تایبەت بە پاراستنی ئاسایشی ناوخۆیی و سەروماڵی هاوڵاتیانی شارۆچکەکە.</p><a href="https://maps.app.goo.gl/C72ewHWMJn4QMopQ9" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
-            <div class="card"><i class="fa-solid fa-store card-icon"></i><h3>بازاڕی سەید سادق</h3><p>بازاڕی سەرەکی کە پێداویستی ڕۆژانە، جلوبەرگ و بەرهەمە کشتوکاڵییەکان دەستدەکەوێت.</p><a href="https://maps.app.goo.gl/TWQ8eU2b1cfvu6PX6" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
-            <div class="card"><i class="fa-solid fa-school card-icon"></i><h3>وەزارەتی پەروەردە </h3><p>قوتابخانە و ناوەندە پەروەردەییەکان کە ئەرکی پێگەیاندنی نەوەی داهاتوویان لەئەستۆیە.</p><a href="https://maps.app.goo.gl/mrg4pCSKL3RnNdHo7" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <a href="explore.html" class="btn">دەست بکە بە گەڕان</a>
         </div>
     </section>
 
@@ -331,45 +83,21 @@
     </footer>
 
     <script>
-        // گۆڕینی ڕەنگی باگراوندی مینیۆ لە کاتی سکڕۆڵکردن (تەنها بۆ شاشەی گەورە)
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
             if(window.innerWidth > 768) {
-                if (window.scrollY > 50) {
-                    nav.style.background = 'rgba(44, 62, 80, 0.95)'; 
-                } else {
-                    nav.style.background = 'rgba(255, 255, 255, 0.1)'; 
-                }
+                if (window.scrollY > 50) { nav.style.background = 'rgba(44, 62, 80, 0.95)'; } 
+                else { nav.style.background = 'rgba(255, 255, 255, 0.1)'; }
             }
         });
 
-        // کۆدی تایبەت بە کردنەوە و داخستنی مینیۆی مۆبایل
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
         const menuIcon = menuBtn.querySelector('i');
-        const links = navLinks.querySelectorAll('a');
-
-        // کاتێک کلیک لە دوگمەکە دەکرێت
         menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active'); // کردنەوە یان داخستنی مینیۆکە
-            
-            // گۆڕینی ئایکۆنەکە لە هێڵەوە بۆ (X) و بە پێچەوانەوە
-            if(navLinks.classList.contains('active')){
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-xmark');
-            } else {
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
-            }
-        });
-
-        // کاتێک کلیک لە یەکێک لە لینکەکان دەکرێت، مینیۆکە خۆی دابخرێتەوە
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
-            });
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){ menuIcon.classList.replace('fa-bars', 'fa-xmark'); } 
+            else { menuIcon.classList.replace('fa-xmark', 'fa-bars'); }
         });
     </script>
 </body>
