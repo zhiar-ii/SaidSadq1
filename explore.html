@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>گەڕان بەناو سەید سادقدا</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root { --primary-color: #2c3e50; --accent-color: #e67e22; --bg-light: #f8f9fa; --text-dark: #333; --text-light: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 20px 5vw; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(44, 62, 80, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        nav h1 { color: var(--text-light); font-size: 24px; font-weight: 800; }
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s; }
+        nav ul li a:hover { color: var(--accent-color); }
+        .active-link { color: var(--accent-color) !important; }
+        .menu-btn { display: none; color: var(--text-light); font-size: 28px; cursor: pointer; z-index: 1001; }
+
+        .section-title { text-align: center; font-size: clamp(2rem, 4vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px; position: relative; }
+        .section-title::after { content: ''; width: 80px; height: 4px; background-color: var(--accent-color); display: block; margin: 10px auto 0; border-radius: 2px; }
+        
+        section { padding: 120px 5vw 80px; }
+        .directory { background-color: var(--bg-light); }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: #fff; border-radius: 15px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 5px; background: var(--accent-color); transform: scaleX(0); transition: transform 0.4s ease; transform-origin: right; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .card:hover::before { transform: scaleX(1); }
+        .card-icon { font-size: 40px; color: var(--primary-color); margin-bottom: 20px; transition: color 0.3s; }
+        .card:hover .card-icon { color: var(--accent-color); }
+        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--primary-color); }
+        .card p { color: #666; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; }
+        .location-link { color: var(--accent-color); text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .location-link:hover { text-decoration: underline; }
+
+        footer { background-color: var(--primary-color); color: var(--text-light); text-align: center; padding: 30px 5vw; font-size: 0.95rem; line-height: 1.8; }
+        footer p { margin-bottom: 5px; }
+        footer .owner { font-weight: 600; color: #bbb; font-size: 0.85rem;}
+        footer a { display: inline-flex; align-items: center; gap: 8px; color: #1877F2; background-color: #fff; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 5vw; }
+            nav h1 { font-size: 22px; z-index: 1001; }
+            .menu-btn { display: block; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh; background-color: rgba(44, 62, 80, 0.98); flex-direction: column; justify-content: center; transition: right 0.4s ease-in-out; }
+            nav ul.active { right: 0; }
+            nav ul li a { font-size: 22px; display: block; padding: 15px; }
+            .card { padding: 25px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <h1>سەید سادق</h1>
+        <div class="menu-btn" id="menu-btn"><i class="fa-solid fa-bars"></i></div>
+        <ul id="nav-links">
+            <li><a href="index.html">سەرەتا</a></li>
+            <li><a href="history.html">مێژوو</a></li>
+            <li><a href="explore.html" class="active-link">گەڕان</a></li>
+        </ul>
+    </nav>
+
+    <section class="directory">
+        <h2 class="section-title">گەڕان بەناو شارۆچکەکەدا</h2>
+        <div class="grid-container">
+            <div class="card"><i class="fa-solid fa-mountain-sun card-icon"></i><h3>شوێنە گەشتیارییەکان</h3><p>سروشتێکی جوانی هەیە بۆ گەشت و سەیران، گونجاوە بۆ خێزان و هاوڕێیان.</p><a href="https://maps.app.goo.gl/mfthmdT6XfoGYcLx6" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <div class="card"><i class="fa-solid fa-hospital card-icon"></i><h3>نەخۆشخانەی شەهید شەوکەت</h3><p>نەخۆشخانەی گشتی سەرەکی قەزاکەیە بۆ چارەسەر و تەندروستی هاوڵاتیان.</p><a href="https://maps.app.goo.gl/4g5AdidocSLtf7mp7" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <div class="card"><i class="fa-solid fa-gas-pump card-icon"></i><h3>وێستگەی سووتەمەنی</h3><p>وێستگەکانی دابینکردنی بەنزین و گازوایل کە ٢٤ کاتژمێر کراوەن.</p><a href="https://maps.app.goo.gl/UABLAv67N6qQ3kgu8" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <div class="card"><i class="fa-solid fa-shield-halved card-icon"></i><h3>بەڕێوەبەرایەتی پۆلیس</h3><p>تایبەت بە پاراستنی ئاسایشی ناوخۆیی و سەروماڵی هاوڵاتیانی شارۆچکەکە.</p><a href="https://maps.app.goo.gl/C72ewHWMJn4QMopQ9" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <div class="card"><i class="fa-solid fa-store card-icon"></i><h3>بازاڕی سەید سادق</h3><p>بازاڕی سەرەکی کە پێداویستی ڕۆژانە، جلوبەرگ و بەرهەمە کشتوکاڵییەکان دەستدەکەوێت.</p><a href="https://maps.app.goo.gl/TWQ8eU2b1cfvu6PX6" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+            <div class="card"><i class="fa-solid fa-school card-icon"></i><h3>وەزارەتی پەروەردە</h3><p>قوتابخانە و ناوەندە پەروەردەییەکان کە ئەرکی پێگەیاندنی نەوەی داهاتوویان لەئەستۆیە.</p><a href="https://maps.app.goo.gl/mrg4pCSKL3RnNdHo7" class="location-link" target="_blank"><i class="fa-solid fa-location-dot"></i> لەسەر نەخشە ببینە</a></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 دۆزینەوەی سەید سادق. بە خۆشەویستییەوە دروستکراوە.</p>
+        <p class="owner">Ownership: Zhiary Dktor Faraj</p>
+        <a href="https://www.facebook.com/share/18TC1wHYRo/?mibextid=wwXIfr" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = menuBtn.querySelector('i');
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){ menuIcon.classList.replace('fa-bars', 'fa-xmark'); } 
+            else { menuIcon.classList.replace('fa-xmark', 'fa-bars'); }
+        });
+    </script>
+</body>
+</html>
