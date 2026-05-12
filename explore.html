@@ -20,7 +20,11 @@
             --text-dim: #A0B0C0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--dark-bg); color: var(--text-light); overflow-x: hidden; }
+        
+        /* Fix mobile overflow gap */
+        html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+        
+        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--dark-bg); color: var(--text-light); }
 
         /* Navbar */
         nav { 
@@ -40,7 +44,7 @@
         .menu-btn { display: none; color: var(--gold-accent); font-size: 28px; cursor: pointer; z-index: 1001; }
 
         /* Page Layout */
-        section { padding: 150px 5vw 100px; min-height: 100vh; background: radial-gradient(circle at top right, #112B42 0%, var(--dark-bg) 60%); }
+        section { padding: 150px 5vw 100px; min-height: 100vh; background: radial-gradient(circle at top right, #112B42 0%, var(--dark-bg) 60%); width: 100%; overflow: hidden; }
         
         .section-title { 
             text-align: center; font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 900; 
@@ -50,12 +54,12 @@
 
         /* Premium Cards Grid */
         .grid-container { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 40px; max-width: 1300px; margin: 0 auto; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; max-width: 1300px; margin: 0 auto; padding: 0 10px;
         }
         
         .card { 
-            background: var(--card-bg); border-radius: 24px; padding: 40px 30px; text-align: center; 
+            background: var(--card-bg); border-radius: 24px; padding: 40px 25px; text-align: center; 
             border: 1px solid rgba(255,255,255,0.05);
             box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
@@ -74,21 +78,21 @@
             opacity: 0; transition: opacity 0.5s; 
         }
         
-        .card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.4); border-color: rgba(212, 175, 55, 0.3); }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: rgba(212, 175, 55, 0.3); }
         .card:hover::before { opacity: 1; }
         
         .icon-wrapper { 
-            width: 80px; height: 80px; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center;
+            width: 70px; height: 70px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
             background: var(--glass-bg); border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
             transition: transform 0.5s;
         }
         .card:hover .icon-wrapper { transform: rotateY(180deg) scale(1.1); background: var(--gold-accent); }
         
-        .card-icon { font-size: 32px; color: var(--gold-accent); transition: color 0.5s; }
+        .card-icon { font-size: 28px; color: var(--gold-accent); transition: color 0.5s; }
         .card:hover .card-icon { color: var(--dark-bg); }
         
-        .card h3 { font-size: 1.5rem; margin-bottom: 15px; color: #fff; font-weight: 700; }
-        .card p { color: var(--text-dim); font-size: 1rem; margin-bottom: 30px; line-height: 1.7; }
+        .card h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; font-weight: 700; }
+        .card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.7; }
         
         .location-link { 
             color: var(--gold-accent); text-decoration: none; font-weight: 700; 
@@ -101,15 +105,15 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Footer */
-        footer { background-color: #06111A; text-align: center; padding: 40px 5vw; line-height: 2; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer { background-color: #06111A; text-align: center; padding: 40px 5vw; line-height: 2; border-top: 1px solid rgba(255,255,255,0.05); width: 100%;}
         footer p { color: #888; }
         footer .owner { font-weight: 500; color: #aaa; font-size: 0.85rem;}
         footer a { display: inline-flex; align-items: center; gap: 8px; color: #06111A; background-color: var(--gold-accent); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 20px; }
 
         @media (max-width: 768px) {
-            nav { width: 95%; padding: 15px 25px; border-radius: 20px;}
+            nav { width: 92%; padding: 15px 25px; border-radius: 20px;}
             .menu-btn { display: block; }
-            nav ul { position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh; background: rgba(10, 20, 29, 0.98); flex-direction: column; justify-content: center; transition: right 0.5s; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: rgba(10, 20, 29, 0.98); flex-direction: column; justify-content: center; transition: right 0.5s; }
             nav ul.active { right: 0; }
             nav ul li a { font-size: 24px; display: block; padding: 15px; }
             .section-title { font-size: 2rem; }
