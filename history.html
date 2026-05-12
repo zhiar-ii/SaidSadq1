@@ -1,3 +1,5 @@
+code
+Html
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
@@ -7,13 +9,13 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root { --primary-color: #2c3e50; --accent-color: #e67e22; --bg-light: #f8f9fa; --text-dark: #333; --text-light: #fff; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+        body { font-family: 'Vazirmatn', Tahoma, Arial, sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
 
         nav { position: fixed; top: 0; width: 100%; padding: 20px 5vw; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(44, 62, 80, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
         nav h1 { color: var(--text-light); font-size: 24px; font-weight: 800; }
@@ -26,13 +28,10 @@
         .section-title { font-size: clamp(2rem, 4vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px; position: relative; display: inline-block;}
         .section-title::after { content: ''; width: 60px; height: 4px; background-color: var(--accent-color); display: block; margin: 10px 0 0; border-radius: 2px; }
         
-        /* ڕێکخستنی مەودای نێوان بەشەکان */
         .history-wrapper { padding: 120px 5vw 80px; display: flex; flex-direction: column; gap: 80px; }
-        
         .history-block { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
         .history-text { flex: 1; min-width: 300px; }
         .history-text p { line-height: 2; margin-bottom: 20px; color: #555; font-size: 1.1rem; text-align: justify; }
-        
         .history-image { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); position: relative;}
         .history-image img { width: 100%; height: auto; display: block; transition: transform 0.5s; }
         .history-image:hover img { transform: scale(1.05); }
@@ -52,8 +51,6 @@
             
             .history-block { gap: 30px; }
             .history-wrapper { gap: 60px; padding-top: 100px;}
-            
-            /* لەسەر مۆبایل وێنەکان دەچنە سەرووی نووسینەکە */
             .history-image { order: -1; } 
         }
     </style>
@@ -71,10 +68,8 @@
     </nav>
 
     <div class="history-wrapper">
-        <!-- بەشی یەکەم: مێژووی سەید سادق -->
         <section class="history-block">
             <div class="history-image">
-                <!-- وێنەی گشتی شارۆچکەکە -->
                 <img src="saidsadiq-history.jpg" alt="وێنەی ناو سەید سادق">
             </div>
             <div class="history-text">
@@ -84,7 +79,6 @@
             </div>
         </section>
 
-        <!-- بەشی دووەم: سەرچاوەی ئاوی حەسار -->
         <section class="history-block">
             <div class="history-text">
                 <h2 class="section-title">سەرچاوەی ئاوی حەسار</h2>
@@ -92,7 +86,6 @@
                 <p>ئاوی حەسار هۆکارێکی گەورەیە بۆ بەرهەمهێنانی بەروبوومە کشتوکاڵییەکانی وەک گەنم، جۆ، و سەوزەوات. هەروەها لە وەرزی بەهار و هاویندا دەبێتە شوێنێکی گەشتیاری دڵڕفێن و خەڵکێکی زۆر بۆ پشوو و سەیران ڕووی تێدەکەن و کاتێکی خۆشی تێدا بەسەر دەبەن.</p>
             </div>
             <div class="history-image">
-                <!-- وێنەی ئاوی حەسار -->
                 <img src="hasar-spring.jpg" alt="سەرچاوەی ئاوی حەسار">
             </div>
         </section>
