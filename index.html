@@ -683,30 +683,31 @@
         });
 
         /* ========================================================
-           ژمێرەری سەردانکەران (لێدانی دڵنیایی بۆ ئەوەی هەرگیز سفر نەبێتەوە)
+           ژمێرەری سەردانکەران (تەنها سەردانکەری ڕاستەقینە لە سفرەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
-            const namespace = 'saidsadiq_website_counter'; 
-            const key = 'total_visits';
             
-            // ئەم ژمارەیە (Base Count)ە، بۆ ئەوەی هەرگیز شێوەی وێبسایتێکی چۆڵ نەدات 
-            // بۆ نمونە ئەگەر APIـەکە کێشەی تێکەوت، یەکسەر دەڵێت ١٢٥٠ کەس سەردانی کردووە نەک ٠.
-            const baseCount = 1250; 
-
-            if (!localStorage.getItem('hasVisited_saidsadiq_v2')) {
+            // ناوەکەمان کەمێک گۆڕی بۆ ئەوەی لە سفرەوە دەست پێبکاتەوە
+            const namespace = 'saidsadiq_website_real'; 
+            const key = 'actual_visits_count';
+            
+            // سەیری لۆکاڵ ستۆرج دەکات بزانێت پێشتر هاتووەتە سایتەکە یان نا
+            if (!localStorage.getItem('hasVisited_saidsadiq_real')) {
+                // ئەگەر یەکەم جاری بوو، ژمارەکە (+1) دەکات
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = data.count + baseCount;
-                        localStorage.setItem('hasVisited_saidsadiq_v2', 'true');
-                    }).catch(() => { viewCountEl.innerText = baseCount + 1; });
+                        viewCountEl.innerText = data.count; // تەنها ژمارە ڕاستەقینەکە دادەنێت
+                        localStorage.setItem('hasVisited_saidsadiq_real', 'true');
+                    }).catch(() => { viewCountEl.innerText = "1"; });
             } else {
+                // ئەگەر پێشتر سەردانی کردبوو، تەنها کۆی گشتی ژمارەکە دەهێنێت بێ ئەوەی زیادی بکات
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = (data.count || 1) + baseCount;
-                    }).catch(() => { viewCountEl.innerText = baseCount + 1; });
+                        viewCountEl.innerText = data.count || 0; // ئەگەر کێشەیەک هەبوو 0 دادەنێت
+                    }).catch(() => { viewCountEl.innerText = "..."; });
             }
         });
     </script>
