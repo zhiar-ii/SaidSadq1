@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
@@ -36,6 +33,16 @@
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* --- دارک مۆد (زیادکراوە) --- */
+        body.dark-mode {
+            --bg-light: #0f172a;
+            --white: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body.dark-mode nav.scrolled { background: rgba(30, 41, 59, 0.95); }
+        /* -------------------------- */
+
         * {
             margin: 0;
             padding: 0;
@@ -48,6 +55,7 @@
             background-color: var(--bg-light);
             color: var(--text-main);
             overflow-x: hidden;
+            transition: background-color 0.4s, color 0.4s;
         }
 
         /* --- شاشەی بەخێرهاتن --- */
@@ -67,7 +75,7 @@
 
         .welcome-content {
             text-align: center;
-            color: var(--white);
+            color: #ffffff;
             animation: popIn 1.5s ease forwards;
         }
 
@@ -130,9 +138,9 @@
 
         nav.scrolled .logo { color: var(--primary-dark); }
 
-        .nav-links { list-style: none; display: flex; gap: 2.5rem; }
+        .nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
         .nav-links a {
-            text-decoration: none; color: var(--white); font-weight: 600;
+            text-decoration: none; color: #ffffff; font-weight: 600;
             font-size: 1.1rem; transition: var(--transition); position: relative;
         }
         nav.scrolled .nav-links a { color: var(--text-main); }
@@ -141,7 +149,17 @@
             width: 0; height: 3px; background: var(--secondary); transition: var(--transition);
         }
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-        .menu-toggle { display: none; font-size: 1.8rem; color: var(--white); cursor: pointer; }
+        
+        /* --- کۆنتڕۆڵی زمان و دارک مۆد (زیادکراوە) --- */
+        .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
+        .theme-toggle { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
+        nav.scrolled .theme-toggle { color: var(--text-main); }
+        .lang-switch { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 5px 10px; border-radius: 8px; cursor: pointer; outline: none; font-weight: 600; }
+        .lang-switch option { color: #000; }
+        nav.scrolled .lang-switch { color: var(--text-main); border-color: var(--text-main); }
+        body.dark-mode nav.scrolled .lang-switch option { color: #fff; background: #0f172a; }
+
+        .menu-toggle { display: none; font-size: 1.8rem; color: #ffffff; cursor: pointer; }
         nav.scrolled .menu-toggle { color: var(--text-main); }
 
         /* --- بەشی هێرۆ (سەرەتا) باکگراوندی تایبەت --- */
@@ -150,13 +168,13 @@
             background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), 
                         url('saidsadiq-main.jpg') center/cover fixed;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 5%; color: var(--white);
+            text-align: center; padding: 0 5%; color: #ffffff;
         }
         .hero h1 { font-size: 4.5rem; font-weight: 900; margin-bottom: 1rem; }
         .hero h1 span { color: var(--secondary); }
         .hero p { font-size: 1.3rem; max-width: 600px; margin-bottom: 2.5rem; color: #cbd5e1; line-height: 1.8; }
         .btn-discover {
-            padding: 1rem 2.5rem; background: var(--primary); color: var(--white);
+            padding: 1rem 2.5rem; background: var(--primary); color: #ffffff;
             text-decoration: none; font-size: 1.2rem; font-weight: 700; border-radius: 30px;
             transition: var(--transition); box-shadow: 0 10px 20px rgba(13, 148, 136, 0.3);
         }
@@ -189,7 +207,7 @@
             z-index: 1;
             background-size: cover;
             background-position: center;
-            color: var(--white); /* گۆڕینی ڕەنگی تێکست بۆ سپی */
+            color: #ffffff; 
         }
 
         /* فللتەرێکی تاریک بەسەر وێنەکانی باکگراوندی کارتەکاندا بۆ ئەوەی نوسینەکە دیار بێت */
@@ -216,9 +234,10 @@
 
         .badge {
             position: absolute; top: 20px; left: 20px;
-            background: rgba(13, 148, 136, 0.9); color: var(--white);
+            background: rgba(13, 148, 136, 0.9); color: #ffffff;
             padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700;
         }
+        html[dir="ltr"] .badge { left: auto; right: 20px; }
 
         .icon-box {
             width: 80px; height: 80px;
@@ -231,23 +250,24 @@
 
         .card-icon { font-size: 2.5rem; color: var(--secondary); transition: var(--transition); }
         .card:hover .icon-box { background: var(--primary); border-color: var(--primary); transform: rotateY(180deg); }
-        .card:hover .card-icon { color: var(--white); }
+        .card:hover .card-icon { color: #ffffff; }
 
-        .card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--white); }
+        .card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #ffffff; }
         .card p { color: #cbd5e1; font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; min-height: 80px; }
 
         .location-btn {
             display: block; width: 100%; text-align: center; padding: 1rem;
-            background: rgba(255, 255, 255, 0.1); color: var(--white); text-decoration: none;
+            background: rgba(255, 255, 255, 0.1); color: #ffffff; text-decoration: none;
             border-radius: 12px; font-weight: 700; transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px);
         }
         .location-btn i { margin-left: 0.5rem; color: var(--secondary); }
-        .card:hover .location-btn { background: var(--primary); color: var(--white); border-color: var(--primary); }
-        .card:hover .location-btn i { color: var(--white); }
+        html[dir="ltr"] .location-btn i { margin-left: 0; margin-right: 0.5rem; }
+        .card:hover .location-btn { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+        .card:hover .location-btn i { color: #ffffff; }
 
         /* --- فووتەر --- */
-        footer { background: #0f172a; color: var(--white); padding: 4rem 5% 2rem; }
+        footer { background: #0f172a; color: #ffffff; padding: 4rem 5% 2rem; }
         .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem; }
         .footer-info h3 { font-size: 1.8rem; color: var(--primary); margin-bottom: 1rem; }
         .footer-info p { color: #94a3b8; max-width: 400px; line-height: 1.8; }
@@ -255,7 +275,7 @@
         .social-icons { display: flex; gap: 1rem; }
         .social-icons a {
             width: 45px; height: 45px; background: rgba(255,255,255,0.05); display: flex;
-            justify-content: center; align-items: center; border-radius: 50%; color: var(--white);
+            justify-content: center; align-items: center; border-radius: 50%; color: #ffffff;
             text-decoration: none; font-size: 1.2rem; transition: var(--transition);
         }
         .social-icons a:hover { background: var(--primary); transform: translateY(-5px); }
@@ -268,14 +288,17 @@
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
+            .nav-controls { margin-inline-start: 0; margin-inline-end: 15px;}
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
                 background: var(--white); flex-direction: column; justify-content: center;
                 align-items: center; transition: var(--transition); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             }
+            html[dir="ltr"] .nav-links { right: auto; left: -100%; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
             .nav-links.active { right: 0; }
-            .nav-links a { color: var(--text-main); font-size: 1.3rem; }
+            html[dir="ltr"] .nav-links.active { left: 0; }
+            .nav-links a { color: var(--text-main) !important; font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -285,91 +308,101 @@
     <div id="welcome-screen">
         <div class="welcome-content">
             <i class="fa-solid fa-map-location-dot welcome-icon"></i>
-            <h1 class="welcome-title">سەید سادق</h1>
-            <p class="welcome-subtitle">بەخێربێیت بۆ شارۆچکەی داهێنان و پێشکەوتن...</p>
+            <h1 class="welcome-title" data-i18n="splash_title">سەید سادق</h1>
+            <p class="welcome-subtitle" data-i18n="splash_desc">بەخێربێیت بۆ شارۆچکەی داهێنان و پێشکەوتن...</p>
         </div>
     </div>
 
     <!-- نێڤبار -->
     <nav id="navbar">
-        <a href="#" class="logo"><i class="fa-solid fa-leaf"></i> سەید سادق</a>
+        <a href="#" class="logo"><i class="fa-solid fa-leaf"></i> <span data-i18n="nav_logo">سەید سادق</span></a>
+        
+        <!-- کۆنتڕۆڵی زمان و دارک مۆد -->
+        <div class="nav-controls">
+            <select id="lang-switch" class="lang-switch">
+                <option value="ku">کوردی</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+            <button id="theme-toggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </div>
+
         <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars-staggered"></i></div>
         <ul class="nav-links" id="nav-list">
-            <li><a href="index.html">سەرەتا</a></li>
-            <li><a href="history.html">مێژوو</a></li>
-            <li><a href="#explore" class="active">گەڕان و شوێنەکان</a></li>
+            <li><a href="index.html" data-i18n="nav_home">سەرەتا</a></li>
+            <li><a href="history.html" data-i18n="nav_history">مێژوو</a></li>
+            <li><a href="#explore" class="active" data-i18n="nav_explore">گەڕان و شوێنەکان</a></li>
         </ul>
     </nav>
 
     <!-- بەشی هێرۆ -->
     <section class="hero">
-        <h1 class="reveal">شارۆچکەی <br>
-            <span>سەید سادق</span></h1>
-        <p class="reveal">بەشێکی گرنگ لە دڵی کوردستان، شارۆچکەیەک پڕ لە جوانی سروشت، بازاڕی قەرەباڵغ و خەڵکێکی میواندۆست. لێرەوە شارەکەمان بناسە.</p>
-        <a href="#explore" class="btn-discover reveal">دەست بکە بە گەڕان <i class="fa-solid fa-arrow-down"></i></a>
+        <h1 class="reveal" data-i18n="hero_title">شارۆچکەی <br><span>سەید سادق</span></h1>
+        <p class="reveal" data-i18n="hero_desc">بەشێکی گرنگ لە دڵی کوردستان، شارۆچکەیەک پڕ لە جوانی سروشت، بازاڕی قەرەباڵغ و خەڵکێکی میواندۆست. لێرەوە شارەکەمان بناسە.</p>
+        <a href="#explore" class="btn-discover reveal" data-i18n="hero_btn">دەست بکە بە گەڕان <i class="fa-solid fa-arrow-down"></i></a>
     </section>
 
     <!-- بەشی گەڕان -->
     <section id="explore" class="explore-section">
         <div class="section-header reveal">
-            <h2>گەڕان بەناو شارۆچکەکەدا</h2>
-            <p>گرنگترین و سەرەکیترین شوێنەکانی قەزای سەید سادق بە یەک کلیک بدۆزەرەوە</p>
+            <h2 data-i18n="exp_title">گەڕان بەناو شارۆچکەکەدا</h2>
+            <p data-i18n="exp_desc">گرنگترین و سەرەکیترین شوێنەکانی قەزای سەید سادق بە یەک کلیک بدۆزەرەوە</p>
         </div>
 
         <div class="grid-container">
             
             <!-- کارت 1 -->
             <div class="card bg-tourism reveal">
-                <span class="badge">گەشتیاری</span>
+                <span class="badge" data-i18n="c1_badge">گەشتیاری</span>
                 <div class="icon-box"><i class="fa-solid fa-mountain-sun card-icon"></i></div>
-                <h3>سروشت و گەشتیاری</h3>
-                <p>سروشتێکی دڵڕفێن و هەوایەکی پاک کە گونجاوە بۆ گەشت و سەیرانی خێزانی لە کۆتایی هەفتەدا.</p>
-                <a href="https://maps.app.goo.gl/mfthmdT6XfoGYcLx6" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c1_title">سروشت و گەشتیاری</h3>
+                <p data-i18n="c1_desc">سروشتێکی دڵڕفێن و هەوایەکی پاک کە گونجاوە بۆ گەشت و سەیرانی خێزانی لە کۆتایی هەفتەدا.</p>
+                <a href="https://maps.app.goo.gl/mfthmdT6XfoGYcLx6" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
             <!-- کارت 2 -->
             <div class="card bg-hospital reveal">
-                <span class="badge">تەندروستی</span>
+                <span class="badge" data-i18n="c2_badge">تەندروستی</span>
                 <div class="icon-box"><i class="fa-solid fa-hospital card-icon"></i></div>
-                <h3>نەخۆشخانەی شەهید شەوکەت</h3>
-                <p>ناوەندی سەرەکی تەندروستی کە ٢٤ کاتژمێر لە خزمەتی نەخۆش و هاوڵاتیانی ناوچەکەدایە.</p>
-                <a href="https://maps.app.goo.gl/4g5AdidocSLtf7mp7" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c2_title">نەخۆشخانەی شەهید شەوکەت</h3>
+                <p data-i18n="c2_desc">ناوەندی سەرەکی تەندروستی کە ٢٤ کاتژمێر لە خزمەتی نەخۆش و هاوڵاتیانی ناوچەکەدایە.</p>
+                <a href="https://maps.app.goo.gl/4g5AdidocSLtf7mp7" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
             <!-- کارت 3 -->
             <div class="card bg-gas reveal">
-                <span class="badge">خزمەتگوزاری</span>
+                <span class="badge" data-i18n="c3_badge">خزمەتگوزاری</span>
                 <div class="icon-box"><i class="fa-solid fa-gas-pump card-icon"></i></div>
-                <h3>وێستگەی سووتەمەنی</h3>
-                <p>دابینکردنی بەنزین و گازوایل بە کوالێتی بەرز بۆ ئاسانکاری هاتوچۆی شۆفێران لە هەموو کاتێکدا.</p>
-                <a href="https://maps.app.goo.gl/UABLAv67N6qQ3kgu8" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c3_title">وێستگەی سووتەمەنی</h3>
+                <p data-i18n="c3_desc">دابینکردنی بەنزین و گازوایل بە کوالێتی بەرز بۆ ئاسانکاری هاتوچۆی شۆفێران لە هەموو کاتێکدا.</p>
+                <a href="https://maps.app.goo.gl/UABLAv67N6qQ3kgu8" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
             <!-- کارت 4 -->
             <div class="card bg-police reveal">
-                <span class="badge">ئاسایش</span>
+                <span class="badge" data-i18n="c4_badge">ئاسایش</span>
                 <div class="icon-box"><i class="fa-solid fa-shield-halved card-icon"></i></div>
-                <h3>بەڕێوەبەرایەتی پۆلیس</h3>
-                <p>پارێزەری سەروماڵ و ئاسایشی ناوخۆیی شارۆچکەکە، هەمیشە ئامادە بۆ بەهاناوەچوونی هاوڵاتیان.</p>
-                <a href="https://maps.app.goo.gl/C72ewHWMJn4QMopQ9" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c4_title">بەڕێوەبەرایەتی پۆلیس</h3>
+                <p data-i18n="c4_desc">پارێزەری سەروماڵ و ئاسایشی ناوخۆیی شارۆچکەکە، هەمیشە ئامادە بۆ بەهاناوەچوونی هاوڵاتیان.</p>
+                <a href="https://maps.app.goo.gl/C72ewHWMJn4QMopQ9" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
             <!-- کارت 5 -->
             <div class="card bg-market reveal">
-                <span class="badge">ئابووری</span>
+                <span class="badge" data-i18n="c5_badge">ئابووری</span>
                 <div class="icon-box"><i class="fa-solid fa-store card-icon"></i></div>
-                <h3>بازاڕی گشتی سەید سادق</h3>
-                <p>دڵی ئابووری شارەکە؛ شوێنی دەستکەوتنی کاڵای ڕۆژانە، بەرهەمی خۆماڵی و جلوبەرگ بە نرخی گونجاو.</p>
-                <a href="https://maps.app.goo.gl/TWQ8eU2b1cfvu6PX6" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c5_title">بازاڕی گشتی سەید سادق</h3>
+                <p data-i18n="c5_desc">دڵی ئابووری شارەکە؛ شوێنی دەستکەوتنی کاڵای ڕۆژانە، بەرهەمی خۆماڵی و جلوبەرگ بە نرخی گونجاو.</p>
+                <a href="https://maps.app.goo.gl/TWQ8eU2b1cfvu6PX6" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
             <!-- کارت 6 -->
             <div class="card bg-school reveal">
-                <span class="badge">پەروەردە</span>
+                <span class="badge" data-i18n="c6_badge">پەروەردە</span>
                 <div class="icon-box"><i class="fa-solid fa-school card-icon"></i></div>
-                <h3>پەروەردە و فێرکردن</h3>
-                <p>قوتابخانەکان کە لانکەی پێگەیاندنی نەوەیەکی هۆشیار و ڕۆشنبیرن بۆ داهاتووی کوردستان.</p>
-                <a href="https://maps.app.goo.gl/mrg4pCSKL3RnNdHo7" class="location-btn" target="_blank"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+                <h3 data-i18n="c6_title">پەروەردە و فێرکردن</h3>
+                <p data-i18n="c6_desc">قوتابخانەکان کە لانکەی پێگەیاندنی نەوەیەکی هۆشیار و ڕۆشنبیرن بۆ داهاتووی کوردستان.</p>
+                <a href="https://maps.app.goo.gl/mrg4pCSKL3RnNdHo7" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
         </div>
@@ -379,11 +412,11 @@
     <footer>
         <div class="footer-content">
             <div class="footer-info">
-                <h3>پڕۆژەی دۆزینەوەی سەید سادق</h3>
-                <p>ئەم وێبسایتە دروستکراوە بۆ ئاسانکاری گەشتیاران و دانیشتووانی شارۆچکەکە تا بە ئاسانی گرنگترین شوێنەکان بدۆزنەوە لەسەر نەخشە.</p>
+                <h3 data-i18n="foot_title">پڕۆژەی دۆزینەوەی سەید سادق</h3>
+                <p data-i18n="foot_desc">ئەم وێبسایتە دروستکراوە بۆ ئاسانکاری گەشتیاران و دانیشتووانی شارۆچکەکە تا بە ئاسانی گرنگترین شوێنەکان بدۆزنەوە لەسەر نەخشە.</p>
             </div>
             <div class="footer-social">
-                <h4>لەگەڵمان بە</h4>
+                <h4 data-i18n="foot_social">لەگەڵمان بە</h4>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/share/18TC1wHYRo/?mibextid=wwXIfr" target="_blank" title="فەیسبووک"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/the.zhy4?igsh=dW81dzRxYXY3ZWxl&utm_source=qr" title="ئینستاگرام"><i class="fa-brands fa-instagram"></i></a>
@@ -391,13 +424,117 @@
                 </div>
             </div>
         </div>
-        <div class="copyright">
+        <div class="copyright" data-i18n="copyright">
             &copy; 2026 تەواوی مافەکان پارێزراوە. خاوەندارێتی و گەشەپێدان: <span>ژیاری دکتۆر فەرەج</span>
         </div>
     </footer>
 
     <!-- جاڤاسکریپت -->
     <script>
+        /* ========================================================
+           فەرهەنگی زمانەکان (Translations)
+        ======================================================== */
+        const translations = {
+            ku: {
+                splash_title: "سەید سادق", splash_desc: "بەخێربێیت بۆ شارۆچکەی داهێنان و پێشکەوتن...",
+                nav_logo: "سەید سادق", nav_home: "سەرەتا", nav_history: "مێژوو", nav_explore: "گەڕان و شوێنەکان",
+                hero_title: "شارۆچکەی <br><span>سەید سادق</span>", 
+                hero_desc: "بەشێکی گرنگ لە دڵی کوردستان، شارۆچکەیەک پڕ لە جوانی سروشت، بازاڕی قەرەباڵغ و خەڵکێکی میواندۆست. لێرەوە شارەکەمان بناسە.",
+                hero_btn: "دەست بکە بە گەڕان <i class='fa-solid fa-arrow-down'></i>",
+                exp_title: "گەڕان بەناو شارۆچکەکەدا", exp_desc: "گرنگترین و سەرەکیترین شوێنەکانی قەزای سەید سادق بە یەک کلیک بدۆزەرەوە",
+                c1_badge: "گەشتیاری", c1_title: "سروشت و گەشتیاری", c1_desc: "سروشتێکی دڵڕفێن و هەوایەکی پاک کە گونجاوە بۆ گەشت و سەیرانی خێزانی لە کۆتایی هەفتەدا.",
+                c2_badge: "تەندروستی", c2_title: "نەخۆشخانەی شەهید شەوکەت", c2_desc: "ناوەندی سەرەکی تەندروستی کە ٢٤ کاتژمێر لە خزمەتی نەخۆش و هاوڵاتیانی ناوچەکەدایە.",
+                c3_badge: "خزمەتگوزاری", c3_title: "وێستگەی سووتەمەنی", c3_desc: "دابینکردنی بەنزین و گازوایل بە کوالێتی بەرز بۆ ئاسانکاری هاتوچۆی شۆفێران لە هەموو کاتێکدا.",
+                c4_badge: "ئاسایش", c4_title: "بەڕێوەبەرایەتی پۆلیس", c4_desc: "پارێزەری سەروماڵ و ئاسایشی ناوخۆیی شارۆچکەکە، هەمیشە ئامادە بۆ بەهاناوەچوونی هاوڵاتیان.",
+                c5_badge: "ئابووری", c5_title: "بازاڕی گشتی سەید سادق", c5_desc: "دڵی ئابووری شارەکە؛ شوێنی دەستکەوتنی کاڵای ڕۆژانە، بەرهەمی خۆماڵی و جلوبەرگ بە نرخی گونجاو.",
+                c6_badge: "پەروەردە", c6_title: "پەروەردە و فێرکردن", c6_desc: "قوتابخانەکان کە لانکەی پێگەیاندنی نەوەیەکی هۆشیار و ڕۆشنبیرن بۆ داهاتووی کوردستان.",
+                map_btn: "<i class='fa-solid fa-location-dot'></i> پیشاندانی نەخشە",
+                foot_title: "پڕۆژەی دۆزینەوەی سەید سادق", foot_desc: "ئەم وێبسایتە دروستکراوە بۆ ئاسانکاری گەشتیاران و دانیشتووانی شارۆچکەکە تا بە ئاسانی گرنگترین شوێنەکان بدۆزنەوە لەسەر نەخشە.",
+                foot_social: "لەگەڵمان بە", copyright: "&copy; 2026 تەواوی مافەکان پارێزراوە. خاوەندارێتی و گەشەپێدان: <span>ژیاری دکتۆر فەرەج</span>"
+            },
+            ar: {
+                splash_title: "سيد صادق", splash_desc: "مرحباً بكم في بلدة الإبداع والتطور...",
+                nav_logo: "سيد صادق", nav_home: "الرئيسية", nav_history: "التاريخ", nav_explore: "الاستكشاف والأماكن",
+                hero_title: "بلدة <br><span>سيد صادق</span>", 
+                hero_desc: "جزء مهم في قلب كردستان، بلدة مليئة بجمال الطبيعة والأسواق المزدحمة والناس المضيافين. تعرف على مدينتنا من هنا.",
+                hero_btn: "ابدأ الاستكشاف <i class='fa-solid fa-arrow-down'></i>",
+                exp_title: "استكشف البلدة", exp_desc: "اكتشف أهم المواقع الرئيسية في قضاء سيد صادق بنقرة واحدة",
+                c1_badge: "سياحة", c1_title: "الطبيعة والسياحة", c1_desc: "طبيعة ساحرة وهواء نقي مناسب للرحلات العائلية في عطلة نهاية الأسبوع.",
+                c2_badge: "صحة", c2_title: "مستشفى الشهيد شوكت", c2_desc: "المركز الصحي الرئيسي الذي يخدم المرضى والمواطنين على مدار 24 ساعة.",
+                c3_badge: "خدمات", c3_title: "محطة وقود", c3_desc: "توفير البنزين والديزل بجودة عالية لتسهيل تنقل السائقين في جميع الأوقات.",
+                c4_badge: "أمن", c4_title: "مديرية الشرطة", c4_desc: "حماة الأرواح والممتلكات والأمن الداخلي للبلدة، مستعدون دائماً لمساعدة المواطنين.",
+                c5_badge: "اقتصاد", c5_title: "سوق سيد صادق العام", c5_desc: "القلب الاقتصادي للمدينة؛ مكان للحصول على السلع اليومية والمنتجات المحلية بأسعار مناسبة.",
+                c6_badge: "تعليم", c6_title: "التربية والتعليم", c6_desc: "المدارس التي تعد مهداً لتنشئة جيل واعي ومثقف لمستقبل كردستان.",
+                map_btn: "<i class='fa-solid fa-location-dot'></i> عرض الخريطة",
+                foot_title: "مشروع اكتشاف سيد صادق", foot_desc: "تم إنشاء هذا الموقع لتسهيل عثور السياح والمقيمين على أهم الأماكن على الخريطة بسهولة.",
+                foot_social: "تابعنا", copyright: "&copy; 2026 جميع الحقوق محفوظة. الملكية والتطوير: <span>ژیاری دکتۆر فەرەج</span>"
+            },
+            en: {
+                splash_title: "Said Sadiq", splash_desc: "Welcome to the town of innovation & progress...",
+                nav_logo: "Said Sadiq", nav_home: "Home", nav_history: "History", nav_explore: "Explore Places",
+                hero_title: "Town of <br><span>Said Sadiq</span>", 
+                hero_desc: "An important part in the heart of Kurdistan, a town full of beautiful nature, bustling markets, and hospitable people.",
+                hero_btn: "Start Exploring <i class='fa-solid fa-arrow-down'></i>",
+                exp_title: "Explore the Town", exp_desc: "Discover the most important places in Said Sadiq district with one click",
+                c1_badge: "Tourism", c1_title: "Nature & Tourism", c1_desc: "Charming nature and fresh air suitable for family trips on weekends.",
+                c2_badge: "Health", c2_title: "Shahid Shawkat Hospital", c2_desc: "The main health center serving patients and citizens 24 hours a day.",
+                c3_badge: "Services", c3_title: "Fuel Station", c3_desc: "Providing high-quality gasoline and diesel to facilitate drivers' commute at all times.",
+                c4_badge: "Security", c4_title: "Police Directorate", c4_desc: "Protectors of property and internal security, always ready to help citizens.",
+                c5_badge: "Economy", c5_title: "General Market", c5_desc: "The economic heart of the city; a place to get daily goods and local products at reasonable prices.",
+                c6_badge: "Education", c6_title: "Education & Learning", c6_desc: "Schools that are the cradle for raising an aware and educated generation for the future.",
+                map_btn: "<i class='fa-solid fa-location-dot'></i> Show on Map",
+                foot_title: "Discover Said Sadiq Project", foot_desc: "This website was created to make it easier for tourists and residents to easily find the most important places on the map.",
+                foot_social: "Follow Us", copyright: "&copy; 2026 All Rights Reserved. Owned and Developed by: <span>Zhiary Dktor Faraj</span>"
+            }
+        };
+
+        /* ========================================================
+           جێبەجێکردنی دارک مۆد و زمانەکان
+        ======================================================== */
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeBtn.querySelector('i');
+        const langSwitch = document.getElementById('lang-switch');
+
+        // پشکنینی سەیڤکراوەکان
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        const savedLang = localStorage.getItem('lang') || 'ku';
+        langSwitch.value = savedLang;
+        setLanguage(savedLang);
+
+        // گۆڕینی دارک مۆد
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // گۆڕینی زمان
+        langSwitch.addEventListener('change', (e) => {
+            setLanguage(e.target.value);
+            localStorage.setItem('lang', e.target.value);
+        });
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
         /* ========================================================
            بەشی سکیوریتی: قوفڵکردنی ڕایت-کلیک و دوگمەکانی کیبۆرد
         ======================================================== */
@@ -452,12 +589,12 @@
         // کردنەوەی مینیوی مۆبایل
         const mobileMenu = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-        const menuIcon = mobileMenu.querySelector('i');
+        const menuIconMob = mobileMenu.querySelector('i');
 
         mobileMenu.addEventListener('click', () => {
             navList.classList.toggle('active');
-            if(navList.classList.contains('active')){ menuIcon.classList.replace('fa-bars-staggered', 'fa-xmark'); } 
-            else { menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered'); }
+            if(navList.classList.contains('active')){ menuIconMob.classList.replace('fa-bars-staggered', 'fa-xmark'); } 
+            else { menuIconMob.classList.replace('fa-xmark', 'fa-bars-staggered'); }
         });
 
         // ئەنیمەیشنی دەرکەوتنی کارتەکان
