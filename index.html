@@ -681,33 +681,48 @@
                 voicePlayed = true;
             }
         });
-
-        /* ========================================================
-           ژمێرەری سەردانکەران (تەنها سەردانکەری ڕاستەقینە لە سفرەوە)
+/* ========================================================
+           ژمێرەری سەردانکەران (ڕاستەقینە + پاراستن لە کاتی ڕیفرێش)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
-            
-            // ناوەکەمان کەمێک گۆڕی بۆ ئەوەی لە سفرەوە دەست پێبکاتەوە
             const namespace = 'saidsadiq_website_real'; 
             const key = 'actual_visits_count';
             
-            // سەیری لۆکاڵ ستۆرج دەکات بزانێت پێشتر هاتووەتە سایتەکە یان نا
+            // ١. سەرەتا یەکسەر کۆتا ژمارە پیشان دەدەین کە خەزن کراوە، بۆ ئەوەی نەبێتە سفر
+            const lastKnownCount = localStorage.getItem('saidsadiq_last_count');
+            if (lastKnownCount) {
+                viewCountEl.innerText = lastKnownCount;
+            }
+
+            // ٢. بزانین سەردانکەرەکە نوێیە یان پێشتر هاتووە
             if (!localStorage.getItem('hasVisited_saidsadiq_real')) {
-                // ئەگەر یەکەم جاری بوو، ژمارەکە (+1) دەکات
+                // ئەگەر سەردانکەری نوێ بوو، یەکێک زیاد دەکەین
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = data.count; // تەنها ژمارە ڕاستەقینەکە دادەنێت
-                        localStorage.setItem('hasVisited_saidsadiq_real', 'true');
-                    }).catch(() => { viewCountEl.innerText = "1"; });
+                        if(data.count) {
+                            viewCountEl.innerText = data.count;
+                            // خەزنکردنی زانیارییەکان بۆ ئەوەی لە کاتی ڕیفرێشدا کێشە دروست نەبێت
+                            localStorage.setItem('hasVisited_saidsadiq_real', 'true');
+                            localStorage.setItem('saidsadiq_last_count', data.count);
+                        }
+                    }).catch(() => { 
+                        if(!lastKnownCount) viewCountEl.innerText = "1"; 
+                    });
             } else {
-                // ئەگەر پێشتر سەردانی کردبوو، تەنها کۆی گشتی ژمارەکە دەهێنێت بێ ئەوەی زیادی بکات
+                // ئەگەر پێشتر هاتبێت (واتە ڕیفرێشی کردووە)، تەنها کۆتا ژمارە دەهێنین
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = data.count || 0; // ئەگەر کێشەیەک هەبوو 0 دادەنێت
-                    }).catch(() => { viewCountEl.innerText = "..."; });
+                        if(data.count) {
+                            viewCountEl.innerText = data.count;
+                            localStorage.setItem('saidsadiq_last_count', data.count); // ئەپدەیتکردنەوەی کۆتا ژمارە
+                        }
+                    }).catch(() => { 
+                        // ئەگەر ئینتەرنێت کێشەی هەبوو، هەر کۆتا ژمارەی خەزنکراو جێدەهێڵین
+                        if(!lastKnownCount) viewCountEl.innerText = "..."; 
+                    });
             }
         });
     </script>
