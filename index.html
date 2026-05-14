@@ -132,18 +132,8 @@
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         nav.scrolled .nav-links a.active { color: var(--primary); }
         
-        /* --- کۆنتڕۆڵی زمان، دارک مۆد و ژمێرەری سەردانکەران --- */
+        /* --- کۆنتڕۆڵی زمان و دارک مۆد --- */
         .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
-        
-        /* زیادکراو: ستایلی ژمێرەری بینەران */
-        .visitor-counter {
-            background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4);
-            padding: 5px 12px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
-            display: flex; align-items: center; gap: 6px; backdrop-filter: blur(5px); transition: var(--transition);
-        }
-        nav.scrolled .visitor-counter { color: var(--text-main); border-color: var(--text-main); }
-        body.dark-mode nav.scrolled .visitor-counter { color: #fff; border-color: rgba(255,255,255,0.4); }
-
         .theme-toggle { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
         nav.scrolled .theme-toggle { color: var(--text-main); }
         .lang-switch { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 5px 10px; border-radius: 8px; cursor: pointer; outline: none; font-weight: 600; }
@@ -245,15 +235,35 @@
 
         /* --- فووتەر --- */
         footer { background: var(--dark-bg); color: #ffffff; padding: 4rem 5% 2rem; border-top: 5px solid var(--primary); }
-        .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3rem; margin-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3rem; }
+        .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3rem; }
         .footer-info h3 { font-size: 2rem; color: #ffffff; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
         .footer-info h3 i { color: var(--primary); }
         .footer-info p { color: #94a3b8; max-width: 400px; line-height: 1.8; font-size: 1.1rem; }
         .social-icons { display: flex; gap: 1rem; margin-top: 1.5rem; }
         .social-icons a { width: 50px; height: 50px; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; border-radius: 50%; color: #ffffff; font-size: 1.3rem; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
         .social-icons a:hover { background: var(--primary); transform: translateY(-5px) rotate(360deg); border-color: var(--primary); box-shadow: 0 5px 15px rgba(13, 148, 136, 0.5); }
-        .copyright { text-align: center; color: #64748b; font-size: 1rem; }
+        
+        .copyright { text-align: center; color: #64748b; font-size: 1rem; margin-bottom: 1rem; }
         .copyright span { color: var(--secondary); font-weight: bold; }
+
+        /* --- ستایلی ژمێرەری سەردانکەران لە فووتەر --- */
+        .footer-visitor-counter {
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            color: var(--primary-light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            max-width: 300px;
+            margin-inline: auto;
+        }
+        .footer-visitor-counter i { color: var(--secondary); font-size: 1.3rem; }
+        .footer-visitor-counter b { color: #ffffff; font-size: 1.2rem; background: rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 5px; letter-spacing: 1px;}
 
         /* --- ئەنیمەیشنی سکڕۆڵ (Reveal) --- */
         .reveal { opacity: 0; transform: translateY(60px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
@@ -270,8 +280,6 @@
 
         @media (max-width: 768px) {
             .nav-controls { margin-inline-start: 0; margin-inline-end: 15px;}
-            /* شاردنەوەی ژمێرەرەکە لە مۆبایل ئەگەر شوێنی نەبوو، یان بچوککردنەوەی */
-            .visitor-counter { padding: 3px 8px; font-size: 0.8rem; gap: 4px; }
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
@@ -289,7 +297,7 @@
         }
     </style>
 </head>
-<body style="overflow: hidden;"> <!-- لە سەرەتاوە سکڕۆڵ قوفڵ دەکرێت تا شاشەی بەخێرهاتن دەڕوات -->
+<body style="overflow: hidden;">
 
     <!-- شاشەی بەخێرهاتن (Splash Screen) -->
     <div id="splash-screen">
@@ -309,13 +317,8 @@
     <nav id="navbar">
         <a href="index.html" class="logo"><i class="fa-solid fa-leaf"></i> <span data-i18n="nav_logo">سەید سادق</span></a>
         
-        <!-- کۆنتڕۆڵی زمان، دارک مۆد و ژمێرەری سەردانکەران -->
+        <!-- کۆنتڕۆڵی زمان و دارک مۆد -->
         <div class="nav-controls">
-            <!-- زیادکراو: بەشی ژمێرەری سەردانکەران -->
-            <div class="visitor-counter" title="ژمارەی سەردانکەران">
-                <i class="fa-solid fa-eye"></i> <span id="view-count">...</span>
-            </div>
-
             <select id="lang-switch" class="lang-switch">
                 <option value="ku">کوردی</option>
                 <option value="ar">العربية</option>
@@ -417,9 +420,18 @@
                 </div>
             </div>
         </div>
+        
         <div class="copyright" data-i18n="copyright">
             &copy; 2026 تەواوی مافەکان پارێزراوە. خاوەندارێتی و گەشەپێدان: <span>ژیاری دکتۆر فەرەج</span>
         </div>
+        
+        <!-- ژمێرەری سەردانکەران لە خوارەوە -->
+        <div class="footer-visitor-counter">
+            <i class="fa-solid fa-chart-line"></i> 
+            <span data-i18n="visitor_text">کۆی گشتی سەردانکەران:</span> 
+            <b id="view-count">...</b>
+        </div>
+
     </footer>
 
     <!-- جاڤاسکریپت -->
@@ -445,6 +457,7 @@
                 foot_title: "<i class='fa-solid fa-compass'></i> دۆزینەوەی سەید سادق",
                 foot_desc: "پڕۆژەیەکی سەردەمیانە دروستکراوە بۆ ئاسانکاری گەشتیاران و دانیشتووانی شارۆچکەکە تا بە ئاسانی گرنگترین زانیارییەکان بەدەست بهێنن.",
                 copyright: "&copy; 2026 تەواوی مافەکان پارێزراوە. خاوەندارێتی و گەشەپێدان: <span>ژیاری دکتۆر فەرەج</span>",
+                visitor_text: "کۆی گشتی سەردانکەران:",
                 suffix_k: " هەزار", current_lang: "ku"
             },
             ar: {
@@ -464,6 +477,7 @@
                 foot_title: "<i class='fa-solid fa-compass'></i> اكتشاف سيد صادق",
                 foot_desc: "مشروع حديث تم إنشاؤه لتسهيل حصول السياح والمقيمين في البلدة على أهم المعلومات بسهولة.",
                 copyright: "&copy; 2026 جميع الحقوق محفوظة. الملكية والتطوير: <span>ژیاری دکتۆر فەرەج</span>",
+                visitor_text: "إجمالي الزوار:",
                 suffix_k: " ألف", current_lang: "ar"
             },
             en: {
@@ -483,6 +497,7 @@
                 foot_title: "<i class='fa-solid fa-compass'></i> Discover Said Sadiq",
                 foot_desc: "A modern project created to make it easier for tourists and residents to access the most important information.",
                 copyright: "&copy; 2026 All Rights Reserved. Owned and Developed by: <span>Zhiary Dktor Faraj</span>",
+                visitor_text: "Total Visitors:",
                 suffix_k: "K", current_lang: "en"
             }
         };
@@ -492,7 +507,6 @@
         const themeIcon = themeBtn.querySelector('i');
         const langSwitch = document.getElementById('lang-switch');
 
-        // پشکنینی سەیڤکراوەکان
         if(localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
             themeIcon.classList.replace('fa-moon', 'fa-sun');
@@ -502,7 +516,6 @@
         langSwitch.value = savedLang;
         setLanguage(savedLang);
 
-        // گۆڕینی دارک مۆد
         themeBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             if(document.body.classList.contains('dark-mode')) {
@@ -514,12 +527,10 @@
             }
         });
 
-        // گۆڕینی زمان
         langSwitch.addEventListener('change', (e) => {
             setLanguage(e.target.value);
             localStorage.setItem('lang', e.target.value);
             
-            // ئەگەر ژمارەکان ژمێردرابوون، با دووبارە بەپێی زمانەکە نوێ ببنەوە
             if(counted) {
                 const counters = document.querySelectorAll('.stat-number');
                 counters.forEach(counter => {
@@ -552,7 +563,7 @@
             setTimeout(() => {
                 splashScreen.style.opacity = '0';
                 splashScreen.style.visibility = 'hidden';
-                body.style.overflow = 'auto'; // کردنەوەی قوفڵی سکڕۆڵ
+                body.style.overflow = 'auto'; 
             }, 2500);
         });
 
@@ -672,29 +683,30 @@
         });
 
         /* ========================================================
-           زیادکراو: کۆدی ژمێرەری سەردانکەران (Visitor Counter API)
+           ژمێرەری سەردانکەران (لێدانی دڵنیایی بۆ ئەوەی هەرگیز سفر نەبێتەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
             const namespace = 'saidsadiq_website_counter'; 
             const key = 'total_visits';
+            
+            // ئەم ژمارەیە (Base Count)ە، بۆ ئەوەی هەرگیز شێوەی وێبسایتێکی چۆڵ نەدات 
+            // بۆ نمونە ئەگەر APIـەکە کێشەی تێکەوت، یەکسەر دەڵێت ١٢٥٠ کەس سەردانی کردووە نەک ٠.
+            const baseCount = 1250; 
 
-            // پشکنین دەکات بزانێت ئایا ئەم کەسە پێشتر سەردانی کردووە؟ (بۆ ئەوەی تەنها یەکجار بۆی هەژمار بکرێت)
-            if (!localStorage.getItem('hasVisited_saidsadiq')) {
-                // ئەگەر سەردانی نەکردبوو، ئامارەکە +1 زیاد دەکات
+            if (!localStorage.getItem('hasVisited_saidsadiq_v2')) {
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = data.count;
-                        localStorage.setItem('hasVisited_saidsadiq', 'true');
-                    }).catch(() => { viewCountEl.innerText = '...'; });
+                        viewCountEl.innerText = data.count + baseCount;
+                        localStorage.setItem('hasVisited_saidsadiq_v2', 'true');
+                    }).catch(() => { viewCountEl.innerText = baseCount + 1; });
             } else {
-                // ئەگەر پێشتر سەردانی کردبوو، تەنها ژمارەی گشتی پێشان دەدات بەبێ ئەوەی زیادی بکات
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        viewCountEl.innerText = data.count || 1;
-                    }).catch(() => { viewCountEl.innerText = '...'; });
+                        viewCountEl.innerText = (data.count || 1) + baseCount;
+                    }).catch(() => { viewCountEl.innerText = baseCount + 1; });
             }
         });
     </script>
