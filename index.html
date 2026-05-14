@@ -682,40 +682,41 @@
             }
         });
         /* ========================================================
-           ژمێرەری سەردانکەران (ڕاستەقینە، جیهانی، و ڕاستەوخۆ/لایڤ)
+           ژمێرەری سەردانکەران (لایڤ - ١٠٠٪ لە سفرەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
             
-            const namespace = 'saidsadiq_city_project'; 
-            const key = 'global_visitor_count';
+            // ناوی تەواو نوێم دانا بۆ ئەوەی لە سێرڤەرەکە بە پاکی لە سفرەوە دەست پێبکات
+            const namespace = 'saidsadiq_final_live_v1'; 
+            const key = 'visits';
             
-            // هێنانەوەی کۆتا ژمارە لە مۆبایلەکەوە بۆ ئەوەی خێرا پیشانی بدات
-            let currentCount = localStorage.getItem('last_seen_count') || "0";
+            // ناوی خەزنکراوەکانی مۆبایلەکەشم گۆڕی بۆ ئەوەی ژمارە کۆنەکانت بیربباتەوە
+            let currentCount = localStorage.getItem('last_count_v1') || "0";
             if (currentCount !== "0") {
                 viewCountEl.innerText = currentCount;
             }
 
-            // فەنکشنێک بۆ نوێکردنەوەی ژمارەکە ئەگەر گۆڕانکاری هەبوو
+            // فەنکشنی نوێکردنەوەی لایڤ
             const updateCounterUI = (newCount) => {
                 if (newCount && parseInt(newCount) > parseInt(currentCount)) {
                     viewCountEl.innerText = newCount;
-                    localStorage.setItem('last_seen_count', newCount);
+                    localStorage.setItem('last_count_v1', newCount);
                     currentCount = newCount;
                 }
             };
 
-            // ١. هەنگاوی یەکەم: کاتێک وێبسایتەکە دەکرێتەوە
-            if (!localStorage.getItem('is_counted_visitor')) {
-                // ئەگەر کەسەکە نوێیە، یەکێک زیاد بکە
+            // بزانین سەردانکەرەکە نوێیە بۆ ئەم کۆدە تازەیە؟
+            if (!localStorage.getItem('counted_v1')) {
+                // بەڵێ نوێیە، ژمارەکە یەکێک زیاد بکە
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
                         updateCounterUI(data.count);
-                        localStorage.setItem('is_counted_visitor', 'true');
+                        localStorage.setItem('counted_v1', 'true');
                     }).catch(() => {});
             } else {
-                // ئەگەر کۆنە، تەنها ژمارە تازەکە بهێنە بێ زیادکردن
+                // نەخێر پێشتر هاتووە، تەنها ژمارەکە بهێنە
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
@@ -723,15 +724,15 @@
                     }).catch(() => {});
             }
 
-            // ٢. هەنگاوی دووەم: (بەشی لایڤ) نوێکردنەوەی ژمارەکە بۆ هەمووان بەبێ ڕیفرێش
-            // ئەم بەشە هەر ٨ چرکە جارێک سەیری سێرڤەرەکە دەکات بزانێت ژمارەکە زیادی کردووە یان نا
+            // بەشی لایڤ: هەر ٥ چرکە جارێک بێدەنگانە سەیری سێرڤەر دەکات
+            // ئەگەر کەسێکی تر لە شوێنێکی تر هاتبێت، یەکسەر ژمارەکە لای تۆش دەگۆڕێت
             setInterval(() => {
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        updateCounterUI(data.count); // ئەگەر کەسێکی تر لە شوێنێکی تر هاتبێت، لێرەش ژمارەکە دەگۆڕێت
-                    }).catch(() => {}); // ئەگەر ئینتەرنێت پچڕا هیچ مەکە با کێشە دروست نەبێت
-            }, 8000); // 8000 میللی چرکە = 8 چرکە
+                        updateCounterUI(data.count);
+                    }).catch(() => {});
+            }, 5000); // 5000 = 5 چرکە
         });
     </script>
 </body>
