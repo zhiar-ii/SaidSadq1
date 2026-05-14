@@ -682,57 +682,45 @@
             }
         });
         /* ========================================================
-           ژمێرەری سەردانکەران (لایڤ - ١٠٠٪ لە سفرەوە)
+           ژمێرەری سەردانکەران (لایڤ - بێ کێشەی کاش و بەزۆر نوێکردنەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
             
-            // ناوی تەواو نوێم دانا بۆ ئەوەی لە سێرڤەرەکە بە پاکی لە سفرەوە دەست پێبکات
-            const namespace = 'saidsadiq_final_live_v1'; 
-            const key = 'visits';
-            
-            // ناوی خەزنکراوەکانی مۆبایلەکەشم گۆڕی بۆ ئەوەی ژمارە کۆنەکانت بیربباتەوە
-            let currentCount = localStorage.getItem('last_count_v1') || "0";
-            if (currentCount !== "0") {
-                viewCountEl.innerText = currentCount;
-            }
+            // ناوێکی تەواو نوێ بۆ ئەوەی بگەڕێتەوە سفر
+            const namespace = 'saidsadiq_perfect_live_v2'; 
+            const key = 'total_visits';
 
-            // فەنکشنی نوێکردنەوەی لایڤ
-            const updateCounterUI = (newCount) => {
-                if (newCount && parseInt(newCount) > parseInt(currentCount)) {
-                    viewCountEl.innerText = newCount;
-                    localStorage.setItem('last_count_v1', newCount);
-                    currentCount = newCount;
-                }
+            // فەنکشنێک بۆ هێنانی تازەترین ژمارە لە سێرڤەر (بەزۆر بەبێ کاش)
+            const syncLiveCount = () => {
+                // ئەو (?time=...) وا دەکات هەرگیز مۆبایلەکە ژمارەی کۆن نەهێنێت و سێرڤەرەکە فێڵ نەخوات
+                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}?time=${new Date().getTime()}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.count !== undefined) {
+                            viewCountEl.innerText = data.count; // هەموو مۆبایلەکان ئەمە وەردەگرن
+                        }
+                    }).catch(() => {});
             };
 
-            // بزانین سەردانکەرەکە نوێیە بۆ ئەم کۆدە تازەیە؟
-            if (!localStorage.getItem('counted_v1')) {
-                // بەڵێ نوێیە، ژمارەکە یەکێک زیاد بکە
-                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+            // بزانین ئەم کەسە نوێیە یان پێشتر هاتووە؟
+            if (!localStorage.getItem('visited_perfect_v2')) {
+                // سەردانکەری نوێیە: یەکێک بۆ سێرڤەرەکە زیاد بکە
+                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up?time=${new Date().getTime()}`)
                     .then(res => res.json())
                     .then(data => {
-                        updateCounterUI(data.count);
-                        localStorage.setItem('counted_v1', 'true');
-                    }).catch(() => {});
+                        if (data && data.count !== undefined) {
+                            viewCountEl.innerText = data.count;
+                            localStorage.setItem('visited_perfect_v2', 'true');
+                        }
+                    }).catch(() => { syncLiveCount(); });
             } else {
-                // نەخێر پێشتر هاتووە، تەنها ژمارەکە بهێنە
-                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        updateCounterUI(data.count);
-                    }).catch(() => {});
+                // پێشتر هاتووە: تەنها ژمارە تازەکە بهێنە بێ زیادکردن
+                syncLiveCount();
             }
 
-            // بەشی لایڤ: هەر ٥ چرکە جارێک بێدەنگانە سەیری سێرڤەر دەکات
-            // ئەگەر کەسێکی تر لە شوێنێکی تر هاتبێت، یەکسەر ژمارەکە لای تۆش دەگۆڕێت
-            setInterval(() => {
-                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        updateCounterUI(data.count);
-                    }).catch(() => {});
-            }, 5000); // 5000 = 5 چرکە
+            // بەشی لایڤ: هەر ٤ چرکە جارێک هەموو مۆبایلەکان ژمارەکە لەگەڵ سێرڤەرەکە یەکدەخەنەوە
+            setInterval(syncLiveCount, 4000); 
         });
     </script>
 </body>
