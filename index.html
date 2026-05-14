@@ -132,23 +132,24 @@
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         nav.scrolled .nav-links a.active { color: var(--primary); }
         
-        /* --- کۆنتڕۆڵی زمان، دارک مۆد، و ژمێرەری سەردانیکەران --- */
+        /* --- کۆنتڕۆڵی زمان، دارک مۆد و ژمێرەری سەردانکەران --- */
         .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
+        
+        /* زیادکراو: ستایلی ژمێرەری بینەران */
+        .visitor-counter {
+            background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4);
+            padding: 5px 12px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+            display: flex; align-items: center; gap: 6px; backdrop-filter: blur(5px); transition: var(--transition);
+        }
+        nav.scrolled .visitor-counter { color: var(--text-main); border-color: var(--text-main); }
+        body.dark-mode nav.scrolled .visitor-counter { color: #fff; border-color: rgba(255,255,255,0.4); }
+
         .theme-toggle { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
         nav.scrolled .theme-toggle { color: var(--text-main); }
         .lang-switch { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 5px 10px; border-radius: 8px; cursor: pointer; outline: none; font-weight: 600; }
         .lang-switch option { color: #000; }
         nav.scrolled .lang-switch { color: var(--text-main); border-color: var(--text-main); }
         body.dark-mode nav.scrolled .lang-switch option { color: #fff; background: var(--dark-bg); }
-
-        /* ستايلی ژمێرەری سەردانیکەران */
-        #visitor-badge {
-            background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4);
-            padding: 5px 10px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; 
-            display: flex; align-items: center; gap: 6px; transition: var(--transition);
-        }
-        nav.scrolled #visitor-badge { color: var(--text-main); border-color: var(--text-main); }
-        body.dark-mode nav.scrolled #visitor-badge { color: #fff; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
 
         .menu-toggle { display: none; font-size: 2rem; color: #ffffff; cursor: pointer; transition: var(--transition); }
         nav.scrolled .menu-toggle { color: var(--text-main); }
@@ -269,6 +270,8 @@
 
         @media (max-width: 768px) {
             .nav-controls { margin-inline-start: 0; margin-inline-end: 15px;}
+            /* شاردنەوەی ژمێرەرەکە لە مۆبایل ئەگەر شوێنی نەبوو، یان بچوککردنەوەی */
+            .visitor-counter { padding: 3px 8px; font-size: 0.8rem; gap: 4px; }
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
@@ -306,10 +309,10 @@
     <nav id="navbar">
         <a href="index.html" class="logo"><i class="fa-solid fa-leaf"></i> <span data-i18n="nav_logo">سەید سادق</span></a>
         
-        <!-- کۆنتڕۆڵی زمان، دارک مۆد، و ژمێرەری سەردانیکەران -->
+        <!-- کۆنتڕۆڵی زمان، دارک مۆد و ژمێرەری سەردانکەران -->
         <div class="nav-controls">
-            <!-- ژمێرەری سەردانیکەران -->
-            <div id="visitor-badge" title="ژمارەی سەردانیکەران">
+            <!-- زیادکراو: بەشی ژمێرەری سەردانکەران -->
+            <div class="visitor-counter" title="ژمارەی سەردانکەران">
                 <i class="fa-solid fa-eye"></i> <span id="view-count">...</span>
             </div>
 
@@ -639,7 +642,7 @@
         }
 
         /* ========================================================
-           بەشی بەخێرهاتنی دەنگی (Voice Welcome) - نوێکراوە
+           بەشی بەخێرهاتنی دەنگی (Voice Welcome)
         ======================================================== */
         let voicePlayed = false;
         document.addEventListener('click', function() {
@@ -669,27 +672,31 @@
         });
 
         /* ========================================================
-           ژمێرەری سەردانیکەران بەپێی ئامێر (هاوشێوەی IP)
+           زیادکراو: کۆدی ژمێرەری سەردانکەران (Visitor Counter API)
         ======================================================== */
-        const viewCountElement = document.getElementById('view-count');
-        const countApiNamespace = 'saidsadiq_project_unique_123'; 
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewCountEl = document.getElementById('view-count');
+            const namespace = 'saidsadiq_website_counter'; 
+            const key = 'total_visits';
 
-        if (!localStorage.getItem('has_visited_site')) {
-            fetch(`https://api.counterapi.dev/v1/${countApiNamespace}/visitors/up`)
-                .then(res => res.json())
-                .then(data => {
-                    viewCountElement.innerText = data.count;
-                    localStorage.setItem('has_visited_site', 'true');
-                })
-                .catch(() => viewCountElement.innerText = '...');
-        } else {
-            fetch(`https://api.counterapi.dev/v1/${countApiNamespace}/visitors`)
-                .then(res => res.json())
-                .then(data => {
-                    viewCountElement.innerText = data.count;
-                })
-                .catch(() => viewCountElement.innerText = '...');
-        }
+            // پشکنین دەکات بزانێت ئایا ئەم کەسە پێشتر سەردانی کردووە؟ (بۆ ئەوەی تەنها یەکجار بۆی هەژمار بکرێت)
+            if (!localStorage.getItem('hasVisited_saidsadiq')) {
+                // ئەگەر سەردانی نەکردبوو، ئامارەکە +1 زیاد دەکات
+                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+                    .then(res => res.json())
+                    .then(data => {
+                        viewCountEl.innerText = data.count;
+                        localStorage.setItem('hasVisited_saidsadiq', 'true');
+                    }).catch(() => { viewCountEl.innerText = '...'; });
+            } else {
+                // ئەگەر پێشتر سەردانی کردبوو، تەنها ژمارەی گشتی پێشان دەدات بەبێ ئەوەی زیادی بکات
+                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        viewCountEl.innerText = data.count || 1;
+                    }).catch(() => { viewCountEl.innerText = '...'; });
+            }
+        });
     </script>
 </body>
 </html>
