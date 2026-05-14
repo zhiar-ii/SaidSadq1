@@ -681,48 +681,45 @@
                 voicePlayed = true;
             }
         });
-/* ========================================================
-           ژمێرەری سەردانکەران (ڕاستەقینە + پاراستن لە کاتی ڕیفرێش)
+        
+        /* ========================================================
+           ژمێرەری سەردانکەران (ڕاستەقینە، جیهانی، و بێ دووبارەبوونەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
-            const namespace = 'saidsadiq_website_real'; 
-            const key = 'actual_visits_count';
             
-            // ١. سەرەتا یەکسەر کۆتا ژمارە پیشان دەدەین کە خەزن کراوە، بۆ ئەوەی نەبێتە سفر
-            const lastKnownCount = localStorage.getItem('saidsadiq_last_count');
-            if (lastKnownCount) {
-                viewCountEl.innerText = lastKnownCount;
+            // ناوێکی تایبەتمان دانا بۆ ئەوەی بە پاکی لە (سفر)ـەوە دەست پێبکات بۆ هەموو دنیا
+            const namespace = 'saidsadiq_city_project'; 
+            const key = 'global_visitor_count';
+            
+            // ١. بۆ ئەوەی کاتی ڕیفرێش سفر نەبێت، یەکسەر کۆتا ژمارە پیشان دەدەین
+            const localSavedCount = localStorage.getItem('last_seen_count');
+            if (localSavedCount) {
+                viewCountEl.innerText = localSavedCount;
             }
 
-            // ٢. بزانین سەردانکەرەکە نوێیە یان پێشتر هاتووە
-            if (!localStorage.getItem('hasVisited_saidsadiq_real')) {
-                // ئەگەر سەردانکەری نوێ بوو، یەکێک زیاد دەکەین
+            // ٢. ئایا ئەم مۆبایلە/کۆمپیوتەرە پێشتر هاتووەتە سایتەکە؟
+            if (!localStorage.getItem('is_counted_visitor')) {
+                // ئەگەر نەخێر (سەردانکەری نوێیە): پەیوەندی بە سێرڤەرەوە بکە و (+١) زیاد بکە لەلای هەمووان
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
-                        if(data.count) {
-                            viewCountEl.innerText = data.count;
-                            // خەزنکردنی زانیارییەکان بۆ ئەوەی لە کاتی ڕیفرێشدا کێشە دروست نەبێت
-                            localStorage.setItem('hasVisited_saidsadiq_real', 'true');
-                            localStorage.setItem('saidsadiq_last_count', data.count);
+                        if (data.count) {
+                            viewCountEl.innerText = data.count; // پیشاندانی ژمارە نوێیەکە
+                            localStorage.setItem('is_counted_visitor', 'true'); // مۆرکردنی ئەم کەسە بۆ ئەوەی جاری تر حساب نەکرێتەوە
+                            localStorage.setItem('last_seen_count', data.count); // خەزنکردنی کۆتا ژمارە
                         }
-                    }).catch(() => { 
-                        if(!lastKnownCount) viewCountEl.innerText = "1"; 
-                    });
+                    }).catch(() => { /* ئەگەر کێشەی ئینتەرنێت هەبوو هیچی لێ مەکە */ });
             } else {
-                // ئەگەر پێشتر هاتبێت (واتە ڕیفرێشی کردووە)، تەنها کۆتا ژمارە دەهێنین
+                // ئەگەر بەڵێ (پێشتر هاتووە): تەنها کۆتا ژمارەی سێرڤەرەکە بهێنە بێ ئەوەی زیادی بکەیت
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        if(data.count) {
-                            viewCountEl.innerText = data.count;
-                            localStorage.setItem('saidsadiq_last_count', data.count); // ئەپدەیتکردنەوەی کۆتا ژمارە
+                        if (data.count) {
+                            viewCountEl.innerText = data.count; // ئەگەر خەڵکی تر سەردانی کردبێت، ژمارەکە لێرەش زیاد دەبێت
+                            localStorage.setItem('last_seen_count', data.count); // ئەپدەیتکردنەوەی ژمارەکە لای خۆی
                         }
-                    }).catch(() => { 
-                        // ئەگەر ئینتەرنێت کێشەی هەبوو، هەر کۆتا ژمارەی خەزنکراو جێدەهێڵین
-                        if(!lastKnownCount) viewCountEl.innerText = "..."; 
-                    });
+                    }).catch(() => { /* پاراستنی ژمارە کۆنەکە ئەگەر نێت بڕا */ });
             }
         });
     </script>
