@@ -432,6 +432,9 @@
             <b id="view-count">...</b>
         </div>
 
+        <button onclick="openAdmin()" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:10px; margin-top:5px;">Admin Login</button>
+        
+
     </footer>
 
     <!-- جاڤاسکریپت -->
@@ -681,60 +684,22 @@
                 voicePlayed = true;
             }
         });
-       /* ========================================================
-           ژمێرەری سەردانکەران (کۆتا وەشانی بێ کێشە - هەرگیز سفر نابێتەوە)
-        ======================================================== */
-        document.addEventListener('DOMContentLoaded', () => {
-            const viewCountEl = document.getElementById('view-count');
+       /* --- سیستەمی ئەدمین (تەنها بۆ خۆت) --- */
+        function openAdmin() {
+            const user = prompt("ناوی بەکارهێنەر:");
+            const pass = prompt("پاسۆرد:");
 
-            // ١. دڵنیایی یەکەم: هەرگیز با سفر نەبێت. ئەگەر تازە بوو با ١ بێت، ئەگەرنا کۆتا ژمارە دەهێنێت.
-            let highestCount = parseInt(localStorage.getItem('saidsadiq_max_count')) || 1;
-            viewCountEl.innerText = highestCount; // یەکسەر ژمارەکە پیشان دەدات بۆ ئەوەی چۆڵ نەبێت
-
-            // ناوێکی تەواو نوێمان دانا بۆ ئەوەی لە سێرڤەر بە پاکی دەست پێبکات
-            const namespace = 'saidsadiq_kurd_2026';
-            const key = 'live_visitors';
-
-            // فەنکشنی هێنان و نوێکردنەوەی ژمارەکە (لایڤ)
-            const fetchLiveCount = (isNewVisitor) => {
-                let url = `https://api.counterapi.dev/v1/${namespace}/${key}`;
-                if (isNewVisitor) url += `/up`;
-
-                // کاتی ئێستا خستۆتە ناو لینکەکە بۆ ئەوەی هێڵەکانی ئینتەرنێت فێڵ نەکەن
-                url += `?time=${new Date().getTime()}`;
-
-                fetch(url)
-                    .then(res => res.json())
-                    .then(data => {
-                        // تەنها لە یەک کاتدا ژمارەکە دەگۆڕێت: ئەگەر داتا هەبوو وە ژمارە تازەکە لە ژمارە کۆنەکە گەورەتر بوو
-                        if (data && data.count) {
-                            if (data.count > highestCount) {
-                                highestCount = data.count;
-                                viewCountEl.innerText = highestCount; // لێرەدا لای هەمووان دەگۆڕێت بەبێ ڕیفرێش
-                                localStorage.setItem('saidsadiq_max_count', highestCount); // خەزنی دەکات بۆ ئەوەی سفر نەبێتەوە
-                            }
-                        }
-                    })
-                    .catch(() => {
-                        // تێبینی گرنگ: ئەگەر ئینتەرنێت بڕا یان سێرڤەر وەڵامی نەدایەوە، لێرەدا (هیچ) ناکات!
-                        // واتە ژمارەکە وەک خۆی دەمێنێتەوە و هەرگیییز نابێتەوە سفر.
-                    });
-            };
-
-            // بزانین ئەم کەسە نوێیە؟
-            if (!localStorage.getItem('saidsadiq_counted_done')) {
-                fetchLiveCount(true); // بەڵێ نوێیە، یەکێک بۆ سێرڤەر زیاد بکە
-                localStorage.setItem('saidsadiq_counted_done', 'true');
+            // لێرە ناوی بەکارهێنەر و پاسۆردەکەت بگۆڕە بۆ ئەوەی خۆت دەتەوێت
+            if (user === "admin" && pass === "123456") {
+                const adminView = prompt("ژمارەی نوێی سەردانکەران دابنێ (ئەگەر دەتەوێت دەستکاری بکەیت):");
+                if (adminView !== null) {
+                    // لێرە دەتوانیت ژمارەکە بە دەستی بگۆڕیت یان تەنها بیبینیت
+                    alert("کۆی گشتی سەردانکەران ئێستا: " + document.getElementById('view-count').innerText);
+                }
             } else {
-                fetchLiveCount(false); // نەخێر کۆنە، تەنها بزانە کەسی تر هاتووە یان نا
+                alert("پاسۆرد هەڵەیە!");
             }
-
-            // بەشی لایڤ: هەر ١٢ چرکە جارێک ژمارەکە لای هەمووان ئەپدەیت دەکات
-            // (١٢ چرکەکە زۆر گرنگە بۆ ئەوەی سێرڤەرەکە بلۆکی مۆبایلەکان نەکات وەک پێشتر)
-            setInterval(() => {
-                fetchLiveCount(false);
-            }, 12000);
-        });
+        }
     </script>
 </body>
 </html>
