@@ -681,46 +681,59 @@
                 voicePlayed = true;
             }
         });
-        /* ========================================================
-           ژمێرەری سەردانکەران (لایڤ - بێ کێشەی کاش و بەزۆر نوێکردنەوە)
+       /* ========================================================
+           ژمێرەری سەردانکەران (کۆتا وەشانی بێ کێشە - هەرگیز سفر نابێتەوە)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
-            
-            // ناوێکی تەواو نوێ بۆ ئەوەی بگەڕێتەوە سفر
-            const namespace = 'saidsadiq_perfect_live_v2'; 
-            const key = 'total_visits';
 
-            // فەنکشنێک بۆ هێنانی تازەترین ژمارە لە سێرڤەر (بەزۆر بەبێ کاش)
-            const syncLiveCount = () => {
-                // ئەو (?time=...) وا دەکات هەرگیز مۆبایلەکە ژمارەی کۆن نەهێنێت و سێرڤەرەکە فێڵ نەخوات
-                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}?time=${new Date().getTime()}`)
+            // ١. دڵنیایی یەکەم: هەرگیز با سفر نەبێت. ئەگەر تازە بوو با ١ بێت، ئەگەرنا کۆتا ژمارە دەهێنێت.
+            let highestCount = parseInt(localStorage.getItem('saidsadiq_max_count')) || 1;
+            viewCountEl.innerText = highestCount; // یەکسەر ژمارەکە پیشان دەدات بۆ ئەوەی چۆڵ نەبێت
+
+            // ناوێکی تەواو نوێمان دانا بۆ ئەوەی لە سێرڤەر بە پاکی دەست پێبکات
+            const namespace = 'saidsadiq_kurd_2026';
+            const key = 'live_visitors';
+
+            // فەنکشنی هێنان و نوێکردنەوەی ژمارەکە (لایڤ)
+            const fetchLiveCount = (isNewVisitor) => {
+                let url = `https://api.counterapi.dev/v1/${namespace}/${key}`;
+                if (isNewVisitor) url += `/up`;
+
+                // کاتی ئێستا خستۆتە ناو لینکەکە بۆ ئەوەی هێڵەکانی ئینتەرنێت فێڵ نەکەن
+                url += `?time=${new Date().getTime()}`;
+
+                fetch(url)
                     .then(res => res.json())
                     .then(data => {
-                        if (data && data.count !== undefined) {
-                            viewCountEl.innerText = data.count; // هەموو مۆبایلەکان ئەمە وەردەگرن
+                        // تەنها لە یەک کاتدا ژمارەکە دەگۆڕێت: ئەگەر داتا هەبوو وە ژمارە تازەکە لە ژمارە کۆنەکە گەورەتر بوو
+                        if (data && data.count) {
+                            if (data.count > highestCount) {
+                                highestCount = data.count;
+                                viewCountEl.innerText = highestCount; // لێرەدا لای هەمووان دەگۆڕێت بەبێ ڕیفرێش
+                                localStorage.setItem('saidsadiq_max_count', highestCount); // خەزنی دەکات بۆ ئەوەی سفر نەبێتەوە
+                            }
                         }
-                    }).catch(() => {});
+                    })
+                    .catch(() => {
+                        // تێبینی گرنگ: ئەگەر ئینتەرنێت بڕا یان سێرڤەر وەڵامی نەدایەوە، لێرەدا (هیچ) ناکات!
+                        // واتە ژمارەکە وەک خۆی دەمێنێتەوە و هەرگیییز نابێتەوە سفر.
+                    });
             };
 
-            // بزانین ئەم کەسە نوێیە یان پێشتر هاتووە؟
-            if (!localStorage.getItem('visited_perfect_v2')) {
-                // سەردانکەری نوێیە: یەکێک بۆ سێرڤەرەکە زیاد بکە
-                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up?time=${new Date().getTime()}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data && data.count !== undefined) {
-                            viewCountEl.innerText = data.count;
-                            localStorage.setItem('visited_perfect_v2', 'true');
-                        }
-                    }).catch(() => { syncLiveCount(); });
+            // بزانین ئەم کەسە نوێیە؟
+            if (!localStorage.getItem('saidsadiq_counted_done')) {
+                fetchLiveCount(true); // بەڵێ نوێیە، یەکێک بۆ سێرڤەر زیاد بکە
+                localStorage.setItem('saidsadiq_counted_done', 'true');
             } else {
-                // پێشتر هاتووە: تەنها ژمارە تازەکە بهێنە بێ زیادکردن
-                syncLiveCount();
+                fetchLiveCount(false); // نەخێر کۆنە، تەنها بزانە کەسی تر هاتووە یان نا
             }
 
-            // بەشی لایڤ: هەر ٤ چرکە جارێک هەموو مۆبایلەکان ژمارەکە لەگەڵ سێرڤەرەکە یەکدەخەنەوە
-            setInterval(syncLiveCount, 4000); 
+            // بەشی لایڤ: هەر ١٢ چرکە جارێک ژمارەکە لای هەمووان ئەپدەیت دەکات
+            // (١٢ چرکەکە زۆر گرنگە بۆ ئەوەی سێرڤەرەکە بلۆکی مۆبایلەکان نەکات وەک پێشتر)
+            setInterval(() => {
+                fetchLiveCount(false);
+            }, 12000);
         });
     </script>
 </body>
