@@ -681,46 +681,57 @@
                 voicePlayed = true;
             }
         });
-        
         /* ========================================================
-           ژمێرەری سەردانکەران (ڕاستەقینە، جیهانی، و بێ دووبارەبوونەوە)
+           ژمێرەری سەردانکەران (ڕاستەقینە، جیهانی، و ڕاستەوخۆ/لایڤ)
         ======================================================== */
         document.addEventListener('DOMContentLoaded', () => {
             const viewCountEl = document.getElementById('view-count');
             
-            // ناوێکی تایبەتمان دانا بۆ ئەوەی بە پاکی لە (سفر)ـەوە دەست پێبکات بۆ هەموو دنیا
             const namespace = 'saidsadiq_city_project'; 
             const key = 'global_visitor_count';
             
-            // ١. بۆ ئەوەی کاتی ڕیفرێش سفر نەبێت، یەکسەر کۆتا ژمارە پیشان دەدەین
-            const localSavedCount = localStorage.getItem('last_seen_count');
-            if (localSavedCount) {
-                viewCountEl.innerText = localSavedCount;
+            // هێنانەوەی کۆتا ژمارە لە مۆبایلەکەوە بۆ ئەوەی خێرا پیشانی بدات
+            let currentCount = localStorage.getItem('last_seen_count') || "0";
+            if (currentCount !== "0") {
+                viewCountEl.innerText = currentCount;
             }
 
-            // ٢. ئایا ئەم مۆبایلە/کۆمپیوتەرە پێشتر هاتووەتە سایتەکە؟
+            // فەنکشنێک بۆ نوێکردنەوەی ژمارەکە ئەگەر گۆڕانکاری هەبوو
+            const updateCounterUI = (newCount) => {
+                if (newCount && parseInt(newCount) > parseInt(currentCount)) {
+                    viewCountEl.innerText = newCount;
+                    localStorage.setItem('last_seen_count', newCount);
+                    currentCount = newCount;
+                }
+            };
+
+            // ١. هەنگاوی یەکەم: کاتێک وێبسایتەکە دەکرێتەوە
             if (!localStorage.getItem('is_counted_visitor')) {
-                // ئەگەر نەخێر (سەردانکەری نوێیە): پەیوەندی بە سێرڤەرەوە بکە و (+١) زیاد بکە لەلای هەمووان
+                // ئەگەر کەسەکە نوێیە، یەکێک زیاد بکە
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
                     .then(res => res.json())
                     .then(data => {
-                        if (data.count) {
-                            viewCountEl.innerText = data.count; // پیشاندانی ژمارە نوێیەکە
-                            localStorage.setItem('is_counted_visitor', 'true'); // مۆرکردنی ئەم کەسە بۆ ئەوەی جاری تر حساب نەکرێتەوە
-                            localStorage.setItem('last_seen_count', data.count); // خەزنکردنی کۆتا ژمارە
-                        }
-                    }).catch(() => { /* ئەگەر کێشەی ئینتەرنێت هەبوو هیچی لێ مەکە */ });
+                        updateCounterUI(data.count);
+                        localStorage.setItem('is_counted_visitor', 'true');
+                    }).catch(() => {});
             } else {
-                // ئەگەر بەڵێ (پێشتر هاتووە): تەنها کۆتا ژمارەی سێرڤەرەکە بهێنە بێ ئەوەی زیادی بکەیت
+                // ئەگەر کۆنە، تەنها ژمارە تازەکە بهێنە بێ زیادکردن
                 fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
                     .then(res => res.json())
                     .then(data => {
-                        if (data.count) {
-                            viewCountEl.innerText = data.count; // ئەگەر خەڵکی تر سەردانی کردبێت، ژمارەکە لێرەش زیاد دەبێت
-                            localStorage.setItem('last_seen_count', data.count); // ئەپدەیتکردنەوەی ژمارەکە لای خۆی
-                        }
-                    }).catch(() => { /* پاراستنی ژمارە کۆنەکە ئەگەر نێت بڕا */ });
+                        updateCounterUI(data.count);
+                    }).catch(() => {});
             }
+
+            // ٢. هەنگاوی دووەم: (بەشی لایڤ) نوێکردنەوەی ژمارەکە بۆ هەمووان بەبێ ڕیفرێش
+            // ئەم بەشە هەر ٨ چرکە جارێک سەیری سێرڤەرەکە دەکات بزانێت ژمارەکە زیادی کردووە یان نا
+            setInterval(() => {
+                fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        updateCounterUI(data.count); // ئەگەر کەسێکی تر لە شوێنێکی تر هاتبێت، لێرەش ژمارەکە دەگۆڕێت
+                    }).catch(() => {}); // ئەگەر ئینتەرنێت پچڕا هیچ مەکە با کێشە دروست نەبێت
+            }, 8000); // 8000 میللی چرکە = 8 چرکە
         });
     </script>
 </body>
