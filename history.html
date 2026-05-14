@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
@@ -28,8 +25,19 @@
             --transition: all 0.5s ease;
         }
 
+        /* --- دارک مۆد (زیادکراوە) --- */
+        body.dark-mode {
+            --light-bg: #0f172a;
+            --white: #1e293b;
+            --text-main: #f8fafc;
+        }
+        body.dark-mode .story-block { background: var(--white); border-color: rgba(255,255,255,0.05); }
+        body.dark-mode nav.scrolled { background: rgba(30, 41, 59, 0.95); }
+        body.dark-mode .quote-box { background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(217, 119, 6, 0.05)); }
+        /* -------------------------- */
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; scroll-behavior: smooth; }
-        body { background-color: var(--light-bg); color: var(--text-main); overflow-x: hidden; }
+        body { background-color: var(--light-bg); color: var(--text-main); overflow-x: hidden; transition: background-color 0.4s, color 0.4s; }
 
         /* --- نێڤبار --- */
         nav {
@@ -41,15 +49,25 @@
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 1rem 5%;
         }
-        .logo { font-size: 1.8rem; font-weight: 900; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition);}
+        .logo { font-size: 1.8rem; font-weight: 900; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition);}
         nav.scrolled .logo { color: var(--primary); }
-        .nav-links { list-style: none; display: flex; gap: 2.5rem; }
-        .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; font-size: 1.1rem; transition: var(--transition); position: relative; }
+        .nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center;}
+        .nav-links a { text-decoration: none; color: #ffffff; font-weight: 600; font-size: 1.1rem; transition: var(--transition); position: relative; }
         nav.scrolled .nav-links a { color: var(--text-main); }
         .nav-links a::after { content: ''; position: absolute; bottom: -5px; right: 0; width: 0; height: 3px; background: var(--secondary); transition: var(--transition); }
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         nav.scrolled .nav-links a.active { color: var(--primary); }
-        .menu-toggle { display: none; font-size: 2rem; color: var(--white); cursor: pointer; }
+        
+        /* --- کۆنتڕۆڵی زمان و دارک مۆد (زیادکراوە) --- */
+        .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
+        .theme-toggle { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
+        nav.scrolled .theme-toggle { color: var(--text-main); }
+        .lang-switch { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 5px 10px; border-radius: 8px; cursor: pointer; outline: none; font-weight: 600; }
+        .lang-switch option { color: #000; }
+        nav.scrolled .lang-switch { color: var(--text-main); border-color: var(--text-main); }
+        body.dark-mode nav.scrolled .lang-switch option { color: #fff; background: #0f172a; }
+
+        .menu-toggle { display: none; font-size: 2rem; color: #ffffff; cursor: pointer; }
         nav.scrolled .menu-toggle { color: var(--text-main); }
 
         /* --- بەشی هێرۆی مێژوو --- */
@@ -58,7 +76,7 @@
             display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), 
                         url('https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=2000&auto=format&fit=crop') center/cover fixed;
-            text-align: center; color: var(--white); clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            text-align: center; color: #ffffff; clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
         }
         .hero-content h1 { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 1rem; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .hero-content h1 span { color: var(--secondary); }
@@ -71,7 +89,7 @@
             display: flex; align-items: center; justify-content: space-between; gap: 4rem; 
             margin-bottom: 7rem; background: var(--white); padding: 2rem; 
             border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.02); transition: var(--transition);
         }
         
         /* پێچەوانەکردنەوەی وێنە و نوسین بۆ بابەتی دووەم */
@@ -98,8 +116,9 @@
             background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(217, 119, 6, 0.05));
             border-right: 4px solid var(--secondary); padding: 1.5rem; border-radius: 10px 0 0 10px;
             font-style: italic; font-weight: 600; color: var(--text-main); margin-top: 1.5rem;
-            font-size: 1.1rem; line-height: 1.8;
+            font-size: 1.1rem; line-height: 1.8; transition: var(--transition);
         }
+        html[dir="ltr"] .quote-box { border-right: none; border-left: 4px solid var(--secondary); border-radius: 0 10px 10px 0;}
 
         /* --- ئەنیمەیشنی هاتنە ناوەوە --- */
         .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 1s ease; }
@@ -118,6 +137,7 @@
         }
         
         @media (max-width: 768px) {
+            .nav-controls { margin-inline-start: 0; margin-inline-end: 15px;}
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
@@ -125,8 +145,10 @@
                 flex-direction: column; justify-content: center; align-items: center;
                 transition: right 0.5s ease;
             }
+            html[dir="ltr"] .nav-links { right: auto; left: -100%; transition: left 0.5s ease; }
             .nav-links.active { right: 0; }
-            .nav-links a { color: var(--white) !important; font-size: 1.5rem; padding: 1rem; }
+            html[dir="ltr"] .nav-links.active { left: 0; }
+            .nav-links a { color: #ffffff !important; font-size: 1.5rem; padding: 1rem; }
             .story-content h2 { font-size: 1.8rem; }
         }
     </style>
@@ -135,72 +157,176 @@
 
     <!-- نێڤبار -->
     <nav id="navbar">
-        <a href="index.html" class="logo"><i class="fa-solid fa-leaf"></i> سەید سادق</a>
+        <a href="index.html" class="logo"><i class="fa-solid fa-leaf"></i> <span data-i18n="nav_logo">سەید سادق</span></a>
+        
+        <!-- کۆنتڕۆڵی زمان و دارک مۆد -->
+        <div class="nav-controls">
+            <select id="lang-switch" class="lang-switch">
+                <option value="ku">کوردی</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+            <button id="theme-toggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </div>
+
         <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars-staggered"></i></div>
         <ul class="nav-links" id="nav-list">
-            <li><a href="index.html">سەرەتا</a></li>
-            <li><a href="history.html" class="active">مێژوو</a></li>
-            <li><a href="explore.html">گەڕان و شوێنەکان</a></li>
+            <li><a href="index.html" data-i18n="nav_home">سەرەتا</a></li>
+            <li><a href="history.html" class="active" data-i18n="nav_history">مێژوو</a></li>
+            <li><a href="explore.html" data-i18n="nav_explore">گەڕان و شوێنەکان</a></li>
         </ul>
     </nav>
 
     <!-- بەشی هێرۆ -->
     <header class="history-hero">
         <div class="hero-content reveal-up">
-            <h1>گەشتێک بەناو <span>مێژوودا</span></h1>
-            <p>لێرەوە ئاشنابە بە ڕەگ و ڕیشەی مێژوویی شارۆچکەی سەید سادق، سەرچاوە سروشتییەکان و ئەو کەسایەتییانەی ناویان لە مێژوودا نەخشاندووە.</p>
+            <h1 data-i18n="hero_title">گەشتێک بەناو <span>مێژوودا</span></h1>
+            <p data-i18n="hero_desc">لێرەوە ئاشنابە بە ڕەگ و ڕیشەی مێژوویی شارۆچکەی سەید سادق، سەرچاوە سروشتییەکان و ئەو کەسایەتییانەی ناویان لە مێژوودا نەخشاندووە.</p>
         </div>
     </header>
 
     <!-- چیرۆکەکان و بابەتەکان -->
-<section class="story-section">
-        
-    <!-- باسی ١: سەید سادق -->
-    <article class="story-block reveal-up">
-        <div class="story-img-wrapper">
-            <img src="saidsadiq-history.jpg" alt="مێژووی سەید سادق" style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; display: block;">
-        </div>
-        <div class="story-content">
-            <div class="story-icon"><i class="fa-solid fa-landmark"></i></div>
-            <h2>مێژووی سەید سادق</h2>
-            <p>قەزای سەید سادق یەکێکە لە قەزا دێرینەکانی سنووری پارێزگای سلێمانی و کەوتووەتە دڵی دەشتی شارەزوورەوە. لە ساڵی ١٩٥٥ بە فەرمی کراوە بە ناحیە و دواتر بەهۆی گەشەسەندنی خێرا و گرنگی پێگەکەیەوە کراوە بە قەزا.</p>
-            <p>ناوی شارەکە دەگەڕێتەوە بۆ پیاوچاکێک بە ناوی سەید سادق کە مەزارگەکەی لە نزیک شارۆچکەکەیە. ئەم شارە بەهۆی هەڵکەوتەی جوگرافییەوە هەمیشە سەنتەرێکی گرنگی بازرگانی و کشتوکاڵی بووە.</p>
-        </div>
-    </article>
+    <section class="story-section">
+            
+        <!-- باسی ١: سەید سادق -->
+        <article class="story-block reveal-up">
+            <div class="story-img-wrapper">
+                <img src="saidsadiq-history.jpg" alt="مێژووی سەید سادق" style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; display: block;">
+            </div>
+            <div class="story-content">
+                <div class="story-icon"><i class="fa-solid fa-landmark"></i></div>
+                <h2 data-i18n="story1_title">مێژووی سەید سادق</h2>
+                <p data-i18n="story1_p1">قەزای سەید سادق یەکێکە لە قەزا دێرینەکانی سنووری پارێزگای سلێمانی و کەوتووەتە دڵی دەشتی شارەزوورەوە. لە ساڵی ١٩٥٥ بە فەرمی کراوە بە ناحیە و دواتر بەهۆی گەشەسەندنی خێرا و گرنگی پێگەکەیەوە کراوە بە قەزا.</p>
+                <p data-i18n="story1_p2">ناوی شارەکە دەگەڕێتەوە بۆ پیاوچاکێک بە ناوی سەید سادق کە مەزارگەکەی لە نزیک شارۆچکەکەیە. ئەم شارە بەهۆی هەڵکەوتەی جوگرافییەوە هەمیشە سەنتەرێکی گرنگی بازرگانی و کشتوکاڵی بووە.</p>
+            </div>
+        </article>
 
-    <!-- باسی ٢: ئاوی حەسار -->
-    <!-- باسی ٢: ئاوی حەسار -->
+        <!-- باسی ٢: ئاوی حەسار -->
         <article class="story-block reverse reveal-up">
             <div class="story-img-wrapper">
-                <!-- ئەم لینکە گۆڕدرا بۆ دانەیەکی خێرا و کارا -->
                 <img src="hasar-spring.jpg" alt="سەرچاوەی ئاوی حەسار" style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; display: block;">
             </div>
             <div class="story-content">
                 <div class="story-icon" style="color: #0ea5e9; background: rgba(14, 165, 233, 0.1);"><i class="fa-solid fa-water"></i></div>
-                <h2>سەرچاوەی ئاوی حەسار</h2>
-                <p>یەکێک لە گرنگترین شادەمارەکانی ژیان لە ناوچەکەدا، سەرچاوەی ئاوی سروشتی حەسارە. ئەم سەرچاوە ئاوییە کە لە قەدپاڵی چیاکانەوە هەڵدەقوڵێت، نەک تەنها ئاوی پاکی خواردنەوەی دابین کردووە، بەڵکو هۆکاری سەرەکی بوژانەوەی کشتوکاڵیشە.</p>
-                <p>ئاوی حەسار هەمیشە وەک سیمبولێکی پاکی و ژیان دۆستی لەلایەن خەڵکی ناوچەکەوە سەیر دەکرێت، وە لە وەرزی بەهاردا دەبێتە سەیرانگایەکی سروشتی دڵڕفێن.</p>
+                <h2 data-i18n="story2_title">سەرچاوەی ئاوی حەسار</h2>
+                <p data-i18n="story2_p1">یەکێک لە گرنگترین شادەمارەکانی ژیان لە ناوچەکەدا، سەرچاوەی ئاوی سروشتی حەسارە. ئەم سەرچاوە ئاوییە کە لە قەدپاڵی چیاکانەوە هەڵدەقوڵێت، نەک تەنها ئاوی پاکی خواردنەوەی دابین کردووە، بەڵکو هۆکاری سەرەکی بوژانەوەی کشتوکاڵیشە.</p>
+                <p data-i18n="story2_p2">ئاوی حەسار هەمیشە وەک سیمبولێکی پاکی و ژیان دۆستی لەلایەن خەڵکی ناوچەکەوە سەیر دەکرێت، وە لە وەرزی بەهاردا دەبێتە سەیرانگایەکی سروشتی دڵڕفێن.</p>
             </div>
         </article>
 
-    <!-- باسی ٣: وەلی دێوانە -->
-    <article class="story-block reveal-up">
-        
-        <div class="story-content">
-            <div class="story-icon" style="color: var(--secondary); background: rgba(217, 119, 6, 0.1);"><i class="fa-solid fa-feather-pointed"></i></div>
-            <h2>شاعیر وەلی دێوانە</h2>
-            <p>کاتێک باس لە ئەدەب و عەشقی پاکی کوردی دەکرێت، ناوی وەلی دێوانە لە لوتکەدایە. ئەم شاعیرە گەورەیە کە هێمای خۆشەویستی و سۆزە، پەیوەندییەکی ڕۆحی و مێژوویی قووڵی بەم ناوچەیەوە هەیە.</p>
-            <p>بەسەرهاتی وەلی دێوانە و شەم بووەتە ئەفسانەیەکی زیندوو کە نەوە لە دوای نەوە دەگێڕدرێتەوە. شیعرەکانی پڕن لە وەسفی جوانی سروشت و ئازاری دووری.</p>
-            <div class="quote-box">
-                "عەشقێک کە لە ڕۆحەوە هەڵقوڵێت، هەرگیز بە تێپەڕبوونی کات لەناو ناچێت، بەڵکو دەبێتە شیعر و لە دڵی نەوەکاندا دەژیت."
+        <!-- باسی ٣: وەلی دێوانە -->
+        <article class="story-block reveal-up">
+            <div class="story-content" style="width:100%"> <!-- زیادکراو بۆ ئەوەی بەجوانی دەربکەوێت چونکە وێنەی نییە -->
+                <div class="story-icon" style="color: var(--secondary); background: rgba(217, 119, 6, 0.1);"><i class="fa-solid fa-feather-pointed"></i></div>
+                <h2 data-i18n="story3_title">شاعیر وەلی دێوانە</h2>
+                <p data-i18n="story3_p1">کاتێک باس لە ئەدەب و عەشقی پاکی کوردی دەکرێت، ناوی وەلی دێوانە لە لوتکەدایە. ئەم شاعیرە گەورەیە کە هێمای خۆشەویستی و سۆزە، پەیوەندییەکی ڕۆحی و مێژوویی قووڵی بەم ناوچەیەوە هەیە.</p>
+                <p data-i18n="story3_p2">بەسەرهاتی وەلی دێوانە و شەم بووەتە ئەفسانەیەکی زیندوو کە نەوە لە دوای نەوە دەگێڕدرێتەوە. شیعرەکانی پڕن لە وەسفی جوانی سروشت و ئازاری دووری.</p>
+                <div class="quote-box" data-i18n="story3_quote">
+                    "عەشقێک کە لە ڕۆحەوە هەڵقوڵێت، هەرگیز بە تێپەڕبوونی کات لەناو ناچێت، بەڵکو دەبێتە شیعر و لە دڵی نەوەکاندا دەژیت."
+                </div>
             </div>
-        </div>
-    </article>
+        </article>
 
-</section>
+    </section>
 
     <!-- جاڤاسکریپت -->
     <script>
+        /* =========================================
+           فەرهەنگی زمانەکان (Translations)
+        ========================================= */
+        const translations = {
+            ku: {
+                nav_logo: "سەید سادق", nav_home: "سەرەتا", nav_history: "مێژوو", nav_explore: "گەڕان و شوێنەکان",
+                hero_title: "گەشتێک بەناو <span>مێژوودا</span>",
+                hero_desc: "لێرەوە ئاشنابە بە ڕەگ و ڕیشەی مێژوویی شارۆچکەی سەید سادق، سەرچاوە سروشتییەکان و ئەو کەسایەتییانەی ناویان لە مێژوودا نەخشاندووە.",
+                story1_title: "مێژووی سەید سادق",
+                story1_p1: "قەزای سەید سادق یەکێکە لە قەزا دێرینەکانی سنووری پارێزگای سلێمانی و کەوتووەتە دڵی دەشتی شارەزوورەوە. لە ساڵی ١٩٥٥ بە فەرمی کراوە بە ناحیە و دواتر بەهۆی گەشەسەندنی خێرا و گرنگی پێگەکەیەوە کراوە بە قەزا.",
+                story1_p2: "ناوی شارەکە دەگەڕێتەوە بۆ پیاوچاکێک بە ناوی سەید سادق کە مەزارگەکەی لە نزیک شارۆچکەکەیە. ئەم شارە بەهۆی هەڵکەوتەی جوگرافییەوە هەمیشە سەنتەرێکی گرنگی بازرگانی و کشتوکاڵی بووە.",
+                story2_title: "سەرچاوەی ئاوی حەسار",
+                story2_p1: "یەکێک لە گرنگترین شادەمارەکانی ژیان لە ناوچەکەدا، سەرچاوەی ئاوی سروشتی حەسارە. ئەم سەرچاوە ئاوییە کە لە قەدپاڵی چیاکانەوە هەڵدەقوڵێت، نەک تەنها ئاوی پاکی خواردنەوەی دابین کردووە، بەڵکو هۆکاری سەرەکی بوژانەوەی کشتوکاڵیشە.",
+                story2_p2: "ئاوی حەسار هەمیشە وەک سیمبولێکی پاکی و ژیان دۆستی لەلایەن خەڵکی ناوچەکەوە سەیر دەکرێت، وە لە وەرزی بەهاردا دەبێتە سەیرانگایەکی سروشتی دڵڕفێن.",
+                story3_title: "شاعیر وەلی دێوانە",
+                story3_p1: "کاتێک باس لە ئەدەب و عەشقی پاکی کوردی دەکرێت، ناوی وەلی دێوانە لە لوتکەدایە. ئەم شاعیرە گەورەیە کە هێمای خۆشەویستی و سۆزە، پەیوەندییەکی ڕۆحی و مێژوویی قووڵی بەم ناوچەیەوە هەیە.",
+                story3_p2: "بەسەرهاتی وەلی دێوانە و شەم بووەتە ئەفسانەیەکی زیندوو کە نەوە لە دوای نەوە دەگێڕدرێتەوە. شیعرەکانی پڕن لە وەسفی جوانی سروشت و ئازاری دووری.",
+                story3_quote: `"عەشقێک کە لە ڕۆحەوە هەڵقوڵێت، هەرگیز بە تێپەڕبوونی کات لەناو ناچێت، بەڵکو دەبێتە شیعر و لە دڵی نەوەکاندا دەژیت."`
+            },
+            ar: {
+                nav_logo: "سيد صادق", nav_home: "الرئيسية", nav_history: "التاريخ", nav_explore: "الاستكشاف والأماكن",
+                hero_title: "رحلة عبر <span>التاريخ</span>",
+                hero_desc: "من هنا تعرف على الجذور التاريخية لبلدة سيد صادق، والموارد الطبيعية والشخصيات التي حفرت أسماءها في التاريخ.",
+                story1_title: "تاريخ سيد صادق",
+                story1_p1: "قضاء سيد صادق هو أحد الأقضية القديمة في محافظة السليمانية ويقع في قلب سهل شهرزور. في عام ١٩٥٥ أصبحت ناحية رسمياً، ولاحقاً بسبب التطور السريع وموقعها الاستراتيجي أصبحت قضاءً.",
+                story1_p2: "يعود اسم المدينة إلى رجل صالح يُدعى سيد صادق والذي يقع ضريحه بالقرب من البلدة. لطالما كانت هذه المدينة مركزاً تجارياً وزراعياً مهماً بسبب موقعها الجغرافي.",
+                story2_title: "نبع ماء حصار",
+                story2_p1: "أحد أهم شرايين الحياة في المنطقة هو نبع حصار الطبيعي. هذا النبع الذي ينبع من سفوح الجبال، لم يوفر مياه الشرب النقية فحسب، بل هو أيضاً السبب الرئيسي لازدهار الزراعة.",
+                story2_p2: "يُنظر دائماً إلى ماء حصار كرمز للنقاء وحب الحياة من قبل السكان المحليين، وفي فصل الربيع يصبح منتزهاً طبيعياً ساحراً.",
+                story3_title: "الشاعر ولي ديوانة",
+                story3_p1: "عند الحديث عن الأدب والحب الكردي النقي، يبرز اسم ولي ديوانة في القمة. هذا الشاعر الكبير، الذي يمثل رمزاً للحب والعاطفة، له ارتباط روحي وتاريخي عميق بهذه المنطقة.",
+                story3_p2: "أصبحت قصة ولي ديوانة وشم أسطورة حية تُروى جيلاً بعد جيل. قصائده مليئة بوصف جمال الطبيعة وألم الفراق.",
+                story3_quote: `"الحب الذي ينبع من الروح لا يزول أبداً بمرور الزمن، بل يتحول إلى شعر يعيش في قلوب الأجيال."`
+            },
+            en: {
+                nav_logo: "Said Sadiq", nav_home: "Home", nav_history: "History", nav_explore: "Explore Places",
+                hero_title: "A Journey Through <span>History</span>",
+                hero_desc: "Discover the historical roots of Said Sadiq town, its natural resources, and the figures who carved their names in history.",
+                story1_title: "History of Said Sadiq",
+                story1_p1: "Said Sadiq is one of the ancient districts in the Sulaymaniyah province, located in the heart of the Sharazur plain. It officially became a sub-district in 1955 and later a district due to rapid development and strategic importance.",
+                story1_p2: "The town's name dates back to a righteous man named Said Sadiq, whose shrine is located near the town. Due to its geographical location, it has always been an important commercial and agricultural center.",
+                story2_title: "Hasar Spring",
+                story2_p1: "One of the most important lifelines in the region is the natural Hasar Spring. Emerging from the foothills, it provides not only pure drinking water but is also the main reason for agricultural prosperity.",
+                story2_p2: "Hasar water is always seen as a symbol of purity and vitality by the locals, and in the spring, it turns into a charming natural resort.",
+                story3_title: "Poet Wali Dewana",
+                story3_p1: "When speaking of Kurdish literature and pure love, the name Wali Dewana stands at the top. This great poet, a symbol of love and affection, has a deep spiritual and historical connection to this region.",
+                story3_p2: "The story of Wali Dewana and Sham has become a living legend passed down from generation to generation. His poems are full of descriptions of nature's beauty and the pain of separation.",
+                story3_quote: `"Love that springs from the soul never perishes with time; rather, it becomes poetry and lives in the hearts of generations."`
+            }
+        };
+
+        /* --- جێبەجێکردنی دارک مۆد و زمانەکان --- */
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeBtn.querySelector('i');
+        const langSwitch = document.getElementById('lang-switch');
+
+        // پشکنینی سەیڤکراوەکان
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        const savedLang = localStorage.getItem('lang') || 'ku';
+        langSwitch.value = savedLang;
+        setLanguage(savedLang);
+
+        // گۆڕینی دارک مۆد
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // گۆڕینی زمان
+        langSwitch.addEventListener('change', (e) => {
+            setLanguage(e.target.value);
+            localStorage.setItem('lang', e.target.value);
+        });
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
         /* --- سکیوریتی کۆد --- */
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
@@ -219,15 +345,15 @@
         /* --- مینیوی مۆبایل --- */
         const mobileMenu = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-        const menuIcon = mobileMenu.querySelector('i');
+        const menuIconMob = mobileMenu.querySelector('i');
         
         mobileMenu.addEventListener('click', () => {
             navList.classList.toggle('active');
             if(navList.classList.contains('active')) {
-                menuIcon.classList.replace('fa-bars-staggered', 'fa-xmark');
+                menuIconMob.classList.replace('fa-bars-staggered', 'fa-xmark');
                 document.body.style.overflow = 'hidden';
             } else {
-                menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered');
+                menuIconMob.classList.replace('fa-xmark', 'fa-bars-staggered');
                 document.body.style.overflow = 'auto';
             }
         });
@@ -237,7 +363,7 @@
             link.addEventListener('click', () => {
                 if(window.innerWidth <= 768) {
                     navList.classList.remove('active');
-                    menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered');
+                    menuIconMob.classList.replace('fa-xmark', 'fa-bars-staggered');
                     document.body.style.overflow = 'auto';
                 }
             });
