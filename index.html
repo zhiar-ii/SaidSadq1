@@ -432,8 +432,7 @@
             <b id="view-count">...</b>
         </div>
 
-        <button onclick="openAdmin()" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:10px; margin-top:5px;">Admin Login</button>
-        
+      
 
     </footer>
 
@@ -655,58 +654,6 @@
             });
         }
 
-       /* ========================================================
-   ژمێرەری IP + بەشی ئەدمینی تایبەت
-======================================================== */
-async function getVisitorIP() {
-    try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-    } catch (e) { return "unknown"; }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const viewCountEl = document.getElementById('view-count');
-    const ip = await getVisitorIP();
-    
-    // سێرڤەری ژمێرەر
-    const namespace = 'saidsadiq_admin_system_v1';
-    const key = 'data';
-
-    // پشکنینی ئەوەی ئایا ئەم IPیە پێشتر هاتووە
-    let visitedIPs = JSON.parse(localStorage.getItem('my_visited_ips') || "[]");
-
-    if (!visitedIPs.includes(ip)) {
-        // زیادکردنی IP بۆ سێرڤەر (بۆ ئەوەی ئەدمین بیبینێت)
-        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
-        visitedIPs.push(ip);
-        localStorage.setItem('my_visited_ips', JSON.stringify(visitedIPs));
-    }
-
-    // هێنانی ژمارەی گشتی
-    setInterval(() => {
-        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
-            .then(res => res.json())
-            .then(data => { viewCountEl.innerText = data.count || 0; });
-    }, 5000);
-});
-
-// بەشی ئەدمین
-function openAdmin() {
-    const user = prompt("ناوی بەکارهێنەر:");
-    const pass = prompt("پاسۆرد:");
-
-    if (user === "admin" && pass === "123456") {
-        fetch(`https://api.counterapi.dev/v1/saidsadiq_admin_system_v1/data`)
-            .then(res => res.json())
-            .then(data => {
-                alert("بەخێرهاتی ئەدمین!\nکۆی گشتی سەردانکەران بە IP: " + data.count + "\n\nتێبینی: هەر IPیەک تەنها یەکجار هەژمار کراوە.");
-            });
-    } else {
-        alert("پاسۆرد هەڵەیە!");
-    }
-}
     </script>
 </body>
 </html>
