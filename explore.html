@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دۆزینەوەی سەید سادق - شارۆچکەی خۆشەویستی</title>
+    <!-- کۆدەکانی PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- کتێبخانەی ئایکۆنەکان -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,9 +20,9 @@
     <style>
         /* --- پاراستنی سایتەکە لە کۆپیکردن --- */
         body {
-            -webkit-user-select: none; /* قوفڵکردنی کۆپیکردنی تێکست بۆ کرۆم و سەفاری */
-            -ms-user-select: none; /* بۆ ئینتەرنێت ئێکسپلۆرەر */
-            user-select: none; /* قوفڵکردنی گشتی */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* --- ڕێکخستنی ڕەنگەکان و گۆڕاوەکان --- */
@@ -33,7 +39,7 @@
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- دارک مۆد (زیادکراوە) --- */
+        /* --- دارک مۆد --- */
         body.dark-mode {
             --bg-light: #0f172a;
             --white: #1e293b;
@@ -41,7 +47,6 @@
             --text-muted: #94a3b8;
         }
         body.dark-mode nav.scrolled { background: rgba(30, 41, 59, 0.95); }
-        /* -------------------------- */
 
         * {
             margin: 0;
@@ -61,96 +66,43 @@
         /* --- شاشەی بەخێرهاتن --- */
         #welcome-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100vh;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
             transition: opacity 0.8s ease, visibility 0.8s;
         }
 
-        .welcome-content {
-            text-align: center;
-            color: #ffffff;
-            animation: popIn 1.5s ease forwards;
-        }
-
-        .welcome-icon {
-            font-size: 4rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            animation: bounce 2s infinite;
-        }
-
+        .welcome-content { text-align: center; color: #ffffff; animation: popIn 1.5s ease forwards; }
+        .welcome-icon { font-size: 4rem; color: var(--primary); margin-bottom: 1rem; animation: bounce 2s infinite; }
         .welcome-title {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
+            font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;
             background: linear-gradient(to right, #2dd4bf, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .welcome-subtitle { font-size: 1.2rem; color: #94a3b8; }
 
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         /* --- نێڤبار --- */
         nav {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            padding: 1.2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: var(--transition);
+            position: fixed; width: 100%; top: 0; padding: 1.2rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: var(--transition);
         }
-
         nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 1rem 5%;
         }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
         nav.scrolled .logo { color: var(--primary-dark); }
 
         .nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
-        .nav-links a {
-            text-decoration: none; color: #ffffff; font-weight: 600;
-            font-size: 1.1rem; transition: var(--transition); position: relative;
-        }
+        .nav-links a { text-decoration: none; color: #ffffff; font-weight: 600; font-size: 1.1rem; transition: var(--transition); position: relative; }
         nav.scrolled .nav-links a { color: var(--text-main); }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; right: 0;
-            width: 0; height: 3px; background: var(--secondary); transition: var(--transition);
-        }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; right: 0; width: 0; height: 3px; background: var(--secondary); transition: var(--transition); }
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         
-        /* --- کۆنتڕۆڵی زمان و دارک مۆد (زیادکراوە) --- */
         .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
         .theme-toggle { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
         nav.scrolled .theme-toggle { color: var(--text-main); }
@@ -162,7 +114,7 @@
         .menu-toggle { display: none; font-size: 1.8rem; color: #ffffff; cursor: pointer; }
         nav.scrolled .menu-toggle { color: var(--text-main); }
 
-        /* --- بەشی هێرۆ (سەرەتا) باکگراوندی تایبەت --- */
+        /* --- بەشی هێرۆ --- */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), 
@@ -174,19 +126,17 @@
         .hero h1 span { color: var(--secondary); }
         .hero p { font-size: 1.3rem; max-width: 600px; margin-bottom: 2.5rem; color: #cbd5e1; line-height: 1.8; }
         .btn-discover {
-            padding: 1rem 2.5rem; background: var(--primary); color: #ffffff;
-            text-decoration: none; font-size: 1.2rem; font-weight: 700; border-radius: 30px;
-            transition: var(--transition); box-shadow: 0 10px 20px rgba(13, 148, 136, 0.3);
+            padding: 1rem 2.5rem; background: var(--primary); color: #ffffff; text-decoration: none;
+            font-size: 1.2rem; font-weight: 700; border-radius: 30px; transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(13, 148, 136, 0.3);
         }
         .btn-discover:hover { background: var(--primary-dark); transform: translateY(-3px); }
 
-        /* --- بەشی گەڕان باکگراوندی تایبەت (نەخشێکی جوان) --- */
+        /* --- بەشی گەڕان --- */
         .explore-section {
             padding: 8rem 5%;
-            /* زیادکردنی نەخش بۆ باکگراوندی ئەم بەشە */
             background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%230d9488" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
         }
-
         .section-header { text-align: center; margin-bottom: 5rem; }
         .section-header h2 { font-size: 2.8rem; color: var(--text-main); margin-bottom: 1rem; }
         .section-header p { color: var(--text-muted); font-size: 1.1rem; }
@@ -196,41 +146,29 @@
             max-width: 1300px; margin: 0 auto;
         }
 
-        /* --- دیزاینی نوێی کارتەکان بە باکگراوندی تایبەت --- */
         .card {
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            background-size: cover;
-            background-position: center;
-            color: #ffffff; 
+            border-radius: 20px; padding: 2.5rem 2rem; box-shadow: var(--card-shadow);
+            transition: var(--transition); position: relative; overflow: hidden; z-index: 1;
+            background-size: cover; background-position: center; color: #ffffff; 
         }
-
-        /* فللتەرێکی تاریک بەسەر وێنەکانی باکگراوندی کارتەکاندا بۆ ئەوەی نوسینەکە دیار بێت */
         .card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
-            z-index: -1;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)); z-index: -1;
         }
 
-        /* وێنەی باکگراوندی تایبەت بۆ هەر کارتێک */
+        /* وێنەی باکگراوندی کارتەکان */
         .bg-tourism { background-image: url('https://images.unsplash.com/photo-1518182170546-076616fd2220?q=80&w=800&auto=format&fit=crop'); }
         .bg-hospital { background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop'); }
         .bg-gas { background-image: url('https://images.unsplash.com/photo-1527015509748-0c648d88fa72?q=80&w=800&auto=format&fit=crop'); }
         .bg-police { background-image: url('https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=800&auto=format&fit=crop'); }
         .bg-market { background-image: url('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?q=80&w=800&auto=format&fit=crop'); }
         .bg-school { background-image: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=800&auto=format&fit=crop'); }
+        /* کارتە نوێیەکان */
+        .bg-cafe { background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop'); }
+        .bg-university { background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop'); }
+        .bg-institute { background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop'); }
 
-        .card:hover {
-            transform: translateY(-12px);
-            box-shadow: var(--hover-shadow);
-        }
+        .card:hover { transform: translateY(-12px); box-shadow: var(--hover-shadow); }
 
         .badge {
             position: absolute; top: 20px; left: 20px;
@@ -240,14 +178,11 @@
         html[dir="ltr"] .badge { left: auto; right: 20px; }
 
         .icon-box {
-            width: 80px; height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 80px; height: 80px; background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
             margin-bottom: 1.5rem; transition: var(--transition);
         }
-
         .card-icon { font-size: 2.5rem; color: var(--secondary); transition: var(--transition); }
         .card:hover .icon-box { background: var(--primary); border-color: var(--primary); transform: rotateY(180deg); }
         .card:hover .card-icon { color: #ffffff; }
@@ -282,7 +217,6 @@
         .copyright { text-align: center; color: #64748b; font-size: 0.95rem; }
         .copyright span { color: var(--secondary); font-weight: bold; }
 
-        /* --- ئەنیمەیشنی دەرکەوتن --- */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -405,6 +339,33 @@
                 <a href="https://maps.app.goo.gl/mrg4pCSKL3RnNdHo7" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
             </div>
 
+            <!-- کارت 7 (زیادکراو: ستۆری کافێ) -->
+            <div class="card bg-cafe reveal">
+                <span class="badge" data-i18n="c7_badge">کافێ</span>
+                <div class="icon-box"><i class="fa-solid fa-mug-hot card-icon"></i></div>
+                <h3 data-i18n="c7_title">ستۆری کافێ</h3>
+                <p data-i18n="c7_desc">شوێنێکی ئارام و مۆدێرن بۆ کات بەسەربردن، خواردنەوەی قاوەیەکی نایاب و بینینی هاوڕێیان لە کەشێکی تایبەتدا.</p>
+                <a href="https://maps.app.goo.gl/YUuXLp5AB9MHxoYy5" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+            </div>
+
+            <!-- کارت 8 (زیادکراو: زانکۆی سەید سادق) -->
+            <div class="card bg-university reveal">
+                <span class="badge" data-i18n="c8_badge">خوێندنی باڵا</span>
+                <div class="icon-box"><i class="fa-solid fa-building-columns card-icon"></i></div>
+                <h3 data-i18n="c8_title">زانکۆی سەید سادق</h3>
+                <p data-i18n="c8_desc">ناوەندێکی ئەکادیمی پێشکەوتوو بۆ پێگەیاندنی خوێندکاران و پەرەپێدانی زانست و مەعریفە لە ناوچەکەدا.</p>
+                <a href="https://maps.app.goo.gl/5QkMo7NYgYDJpuzk8" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+            </div>
+
+            <!-- کارت 9 (زیادکراو: پەیمانگای نۆلج) -->
+            <div class="card bg-institute reveal">
+                <span class="badge" data-i18n="c9_badge">پەیمانگا</span>
+                <div class="icon-box"><i class="fa-solid fa-graduation-cap card-icon"></i></div>
+                <h3 data-i18n="c9_title">پەیمانگای نۆلجی ناحوکمی</h3>
+                <p data-i18n="c9_desc">دامەزراوەیەکی پەروەردەیی تایبەت کە گرنگی بە گەشەپێدانی تواناکانی گەنجان دەدات لە چەندین بەشی جیاوازی زانستیدا.</p>
+                <a href="https://maps.app.goo.gl/tSRxGSTSBi1y1Aoc7" class="location-btn" target="_blank" data-i18n="map_btn"><i class="fa-solid fa-location-dot"></i> پیشاندانی نەخشە</a>
+            </div>
+
         </div>
     </section>
 
@@ -448,6 +409,11 @@
                 c4_badge: "ئاسایش", c4_title: "بەڕێوەبەرایەتی پۆلیس", c4_desc: "پارێزەری سەروماڵ و ئاسایشی ناوخۆیی شارۆچکەکە، هەمیشە ئامادە بۆ بەهاناوەچوونی هاوڵاتیان.",
                 c5_badge: "ئابووری", c5_title: "بازاڕی گشتی سەید سادق", c5_desc: "دڵی ئابووری شارەکە؛ شوێنی دەستکەوتنی کاڵای ڕۆژانە، بەرهەمی خۆماڵی و جلوبەرگ بە نرخی گونجاو.",
                 c6_badge: "پەروەردە", c6_title: "پەروەردە و فێرکردن", c6_desc: "قوتابخانەکان کە لانکەی پێگەیاندنی نەوەیەکی هۆشیار و ڕۆشنبیرن بۆ داهاتووی کوردستان.",
+                // ئەم سێ بەشە نوێیە زیادکراون بۆ کوردی
+                c7_badge: "کافێ", c7_title: "ستۆری کافێ", c7_desc: "شوێنێکی ئارام و مۆدێرن بۆ کات بەسەربردن، خواردنەوەی قاوەیەکی نایاب و بینینی هاوڕێیان لە کەشێکی تایبەتدا.",
+                c8_badge: "خوێندنی باڵا", c8_title: "زانکۆی سەید سادق", c8_desc: "ناوەندێکی ئەکادیمی پێشکەوتوو بۆ پێگەیاندنی خوێندکاران و پەرەپێدانی زانست و مەعریفە لە ناوچەکەدا.",
+                c9_badge: "پەیمانگا", c9_title: "پەیمانگای نۆلجی ناحوکمی", c9_desc: "دامەزراوەیەکی پەروەردەیی تایبەت کە گرنگی بە گەشەپێدانی تواناکانی گەنجان دەدات لە چەندین بەشی جیاوازی زانستیدا.",
+                
                 map_btn: "<i class='fa-solid fa-location-dot'></i> پیشاندانی نەخشە",
                 foot_title: "پڕۆژەی دۆزینەوەی سەید سادق", foot_desc: "ئەم وێبسایتە دروستکراوە بۆ ئاسانکاری گەشتیاران و دانیشتووانی شارۆچکەکە تا بە ئاسانی گرنگترین شوێنەکان بدۆزنەوە لەسەر نەخشە.",
                 foot_social: "لەگەڵمان بە", copyright: "&copy; 2026 تەواوی مافەکان پارێزراوە. خاوەندارێتی و گەشەپێدان: <span>ژیاری دکتۆر فەرەج</span>"
@@ -465,6 +431,11 @@
                 c4_badge: "أمن", c4_title: "مديرية الشرطة", c4_desc: "حماة الأرواح والممتلكات والأمن الداخلي للبلدة، مستعدون دائماً لمساعدة المواطنين.",
                 c5_badge: "اقتصاد", c5_title: "سوق سيد صادق العام", c5_desc: "القلب الاقتصادي للمدينة؛ مكان للحصول على السلع اليومية والمنتجات المحلية بأسعار مناسبة.",
                 c6_badge: "تعليم", c6_title: "التربية والتعليم", c6_desc: "المدارس التي تعد مهداً لتنشئة جيل واعي ومثقف لمستقبل كردستان.",
+                // ئەم سێ بەشە نوێیە زیادکراون بۆ عەرەبی
+                c7_badge: "مقهى", c7_title: "ستوري كافيه", c7_desc: "مكان هادئ وعصري لقضاء الوقت، شرب قهوة ممتازة ولقاء الأصدقاء في أجواء خاصة.",
+                c8_badge: "تعليم عالي", c8_title: "جامعة سيد صادق", c8_desc: "مركز أكاديمي متقدم لإعداد الطلاب وتطوير العلوم والمعرفة في المنطقة.",
+                c9_badge: "معهد", c9_title: "معهد نولج الأهلي", c9_desc: "مؤسسة تعليمية خاصة تهتم بتطوير قدرات الشباب في العديد من الأقسام العلمية المختلفة.",
+                
                 map_btn: "<i class='fa-solid fa-location-dot'></i> عرض الخريطة",
                 foot_title: "مشروع اكتشاف سيد صادق", foot_desc: "تم إنشاء هذا الموقع لتسهيل عثور السياح والمقيمين على أهم الأماكن على الخريطة بسهولة.",
                 foot_social: "تابعنا", copyright: "&copy; 2026 جميع الحقوق محفوظة. الملكية والتطوير: <span>ژیاری دکتۆر فەرەج</span>"
@@ -482,6 +453,11 @@
                 c4_badge: "Security", c4_title: "Police Directorate", c4_desc: "Protectors of property and internal security, always ready to help citizens.",
                 c5_badge: "Economy", c5_title: "General Market", c5_desc: "The economic heart of the city; a place to get daily goods and local products at reasonable prices.",
                 c6_badge: "Education", c6_title: "Education & Learning", c6_desc: "Schools that are the cradle for raising an aware and educated generation for the future.",
+                // ئەم سێ بەشە نوێیە زیادکراون بۆ ئینگلیزی
+                c7_badge: "Cafe", c7_title: "Story Cafe", c7_desc: "A quiet and modern place to spend time, drink excellent coffee, and meet friends in a special atmosphere.",
+                c8_badge: "Higher Education", c8_title: "Said Sadiq University", c8_desc: "An advanced academic center for preparing students and developing science and knowledge in the region.",
+                c9_badge: "Institute", c9_title: "Knowledge Private Institute", c9_desc: "A private educational institution focusing on developing youth skills in various scientific departments.",
+                
                 map_btn: "<i class='fa-solid fa-location-dot'></i> Show on Map",
                 foot_title: "Discover Said Sadiq Project", foot_desc: "This website was created to make it easier for tourists and residents to easily find the most important places on the map.",
                 foot_social: "Follow Us", copyright: "&copy; 2026 All Rights Reserved. Owned and Developed by: <span>Zhiary Dktor Faraj</span>"
@@ -609,6 +585,20 @@
         };
         const revealObserver = new IntersectionObserver(revealCallback, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
         revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+    <!-- تۆمارکردنی Service Worker بۆ PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
