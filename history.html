@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سەید سادق - مێژوو و کەلەپوور</title>
+    <!-- کۆدەکانی PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- کتێبخانەی ئایکۆنەکان -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -201,8 +207,21 @@
             </div>
         </article>
 
-        <!-- باسی ٢: ئاوی حەسار -->
+        <!-- باسی ٤ (زیادکراو): خاپوورکردن و ڕاپەڕینی ١٩٩١ -->
         <article class="story-block reverse reveal-up">
+            <div class="story-img-wrapper">
+                <img src="saidsadq91.jpg" alt="خاپوورکردن و ئاوەدانکردنەوە" style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; display: block;">
+            </div>
+            <div class="story-content">
+                <div class="story-icon" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                <h2 data-i18n="story4_title">وێرانکردن و سەرهەڵدانەوەی ١٩٩١</h2>
+                <p data-i18n="story4_p1">لە کۆتایی ساڵانی هەشتاکاندا، بەتایبەت لە ساڵی ١٩٨٨، شارۆچکەی سەید سادق هاوشێوەی زۆرێک لە ناوچەکانی تری کوردستان کەوتە بەر شاڵاوی وێرانکاری ڕژێمی بەعس و بەتەواوی خاپوور کرا و دانیشتووانەکەی ڕاگوێزران.</p>
+                <p data-i18n="story4_p2">بەڵام دوای ڕاپەڕینە مەزنەکەی بەهاری ١٩٩١، خەڵکە نیشتیمانپەروەرەکەی بە ئیرادەیەکی پۆڵایینەوە گەڕانەوە زێدی خۆیان. لەسەر داروپەردووی وێرانەکان، ژیانیان دەستپێکردەوە و سەید سادقێکی نوێ، گەورەتر و پێشکەوتووتریان بونیاد نایەوە کە بووە هێمای بەرخۆدان و زیندووێتی ئەم شارە.</p>
+            </div>
+        </article>
+
+        <!-- باسی ٢: ئاوی حەسار -->
+        <article class="story-block reveal-up">
             <div class="story-img-wrapper">
                 <img src="hasar-spring.jpg" alt="سەرچاوەی ئاوی حەسار" style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; display: block;">
             </div>
@@ -216,7 +235,7 @@
 
         <!-- باسی ٣: وەلی دێوانە -->
         <article class="story-block reveal-up">
-            <div class="story-content" style="width:100%"> <!-- زیادکراو بۆ ئەوەی بەجوانی دەربکەوێت چونکە وێنەی نییە -->
+            <div class="story-content" style="width:100%"> 
                 <div class="story-icon" style="color: var(--secondary); background: rgba(217, 119, 6, 0.1);"><i class="fa-solid fa-feather-pointed"></i></div>
                 <h2 data-i18n="story3_title">شاعیر وەلی دێوانە</h2>
                 <p data-i18n="story3_p1">کاتێک باس لە ئەدەب و عەشقی پاکی کوردی دەکرێت، ناوی وەلی دێوانە لە لوتکەدایە. ئەم شاعیرە گەورەیە کە هێمای خۆشەویستی و سۆزە، پەیوەندییەکی ڕۆحی و مێژوویی قووڵی بەم ناوچەیەوە هەیە.</p>
@@ -239,12 +258,19 @@
                 nav_logo: "سەید سادق", nav_home: "سەرەتا", nav_history: "مێژوو", nav_explore: "گەڕان و شوێنەکان",
                 hero_title: "گەشتێک بەناو <span>مێژوودا</span>",
                 hero_desc: "لێرەوە ئاشنابە بە ڕەگ و ڕیشەی مێژوویی شارۆچکەی سەید سادق، سەرچاوە سروشتییەکان و ئەو کەسایەتییانەی ناویان لە مێژوودا نەخشاندووە.",
+                
                 story1_title: "مێژووی سەید سادق",
                 story1_p1: "قەزای سەید سادق یەکێکە لە قەزا دێرینەکانی سنووری پارێزگای سلێمانی و کەوتووەتە دڵی دەشتی شارەزوورەوە. لە ساڵی ١٩٥٥ بە فەرمی کراوە بە ناحیە و دواتر بەهۆی گەشەسەندنی خێرا و گرنگی پێگەکەیەوە کراوە بە قەزا.",
                 story1_p2: "ناوی شارەکە دەگەڕێتەوە بۆ پیاوچاکێک بە ناوی سەید سادق کە مەزارگەکەی لە نزیک شارۆچکەکەیە. ئەم شارە بەهۆی هەڵکەوتەی جوگرافییەوە هەمیشە سەنتەرێکی گرنگی بازرگانی و کشتوکاڵی بووە.",
+                
+                story4_title: "وێرانکردن و سەرهەڵدانەوەی ١٩٩١",
+                story4_p1: "لە کۆتایی ساڵانی هەشتاکاندا، بەتایبەت لە ساڵی ١٩٨٨، شارۆچکەی سەید سادق هاوشێوەی زۆرێک لە ناوچەکانی تری کوردستان کەوتە بەر شاڵاوی وێرانکاری ڕژێمی بەعس و بەتەواوی خاپوور کرا و دانیشتووانەکەی ڕاگوێزران.",
+                story4_p2: "بەڵام دوای ڕاپەڕینە مەزنەکەی بەهاری ١٩٩١، خەڵکە نیشتیمانپەروەرەکەی بە ئیرادەیەکی پۆڵایینەوە گەڕانەوە زێدی خۆیان. لەسەر داروپەردووی وێرانەکان، ژیانیان دەستپێکردەوە و سەید سادقێکی نوێ، گەورەتر و پێشکەوتووتریان بونیاد نایەوە کە بووە هێمای بەرخۆدان و زیندووێتی ئەم شارە.",
+
                 story2_title: "سەرچاوەی ئاوی حەسار",
                 story2_p1: "یەکێک لە گرنگترین شادەمارەکانی ژیان لە ناوچەکەدا، سەرچاوەی ئاوی سروشتی حەسارە. ئەم سەرچاوە ئاوییە کە لە قەدپاڵی چیاکانەوە هەڵدەقوڵێت، نەک تەنها ئاوی پاکی خواردنەوەی دابین کردووە، بەڵکو هۆکاری سەرەکی بوژانەوەی کشتوکاڵیشە.",
                 story2_p2: "ئاوی حەسار هەمیشە وەک سیمبولێکی پاکی و ژیان دۆستی لەلایەن خەڵکی ناوچەکەوە سەیر دەکرێت، وە لە وەرزی بەهاردا دەبێتە سەیرانگایەکی سروشتی دڵڕفێن.",
+                
                 story3_title: "شاعیر وەلی دێوانە",
                 story3_p1: "کاتێک باس لە ئەدەب و عەشقی پاکی کوردی دەکرێت، ناوی وەلی دێوانە لە لوتکەدایە. ئەم شاعیرە گەورەیە کە هێمای خۆشەویستی و سۆزە، پەیوەندییەکی ڕۆحی و مێژوویی قووڵی بەم ناوچەیەوە هەیە.",
                 story3_p2: "بەسەرهاتی وەلی دێوانە و شەم بووەتە ئەفسانەیەکی زیندوو کە نەوە لە دوای نەوە دەگێڕدرێتەوە. شیعرەکانی پڕن لە وەسفی جوانی سروشت و ئازاری دووری.",
@@ -254,12 +280,19 @@
                 nav_logo: "سيد صادق", nav_home: "الرئيسية", nav_history: "التاريخ", nav_explore: "الاستكشاف والأماكن",
                 hero_title: "رحلة عبر <span>التاريخ</span>",
                 hero_desc: "من هنا تعرف على الجذور التاريخية لبلدة سيد صادق، والموارد الطبيعية والشخصيات التي حفرت أسماءها في التاريخ.",
+                
                 story1_title: "تاريخ سيد صادق",
                 story1_p1: "قضاء سيد صادق هو أحد الأقضية القديمة في محافظة السليمانية ويقع في قلب سهل شهرزور. في عام ١٩٥٥ أصبحت ناحية رسمياً، ولاحقاً بسبب التطور السريع وموقعها الاستراتيجي أصبحت قضاءً.",
                 story1_p2: "يعود اسم المدينة إلى رجل صالح يُدعى سيد صادق والذي يقع ضريحه بالقرب من البلدة. لطالما كانت هذه المدينة مركزاً تجارياً وزراعياً مهماً بسبب موقعها الجغرافي.",
+                
+                story4_title: "الدمار ونهضة عام ١٩٩١",
+                story4_p1: "في أواخر الثمانينيات، وتحديداً في عام ١٩٨٨، تعرضت مدينة سيد صادق، كغيرها من مناطق كردستان، لحملة تدمير من قبل نظام البعث، حيث دُمرت بالكامل وهُجر سكانها.",
+                story4_p2: "ولكن بعد الانتفاضة العظيمة في ربيع عام ١٩٩١، عاد أهلها الوطنيون بإرادة حديدية إلى موطنهم. وعلى أنقاض الدمار، بدأوا الحياة من جديد وبنوا مدينة سيد صادق جديدة وأكبر وأكثر تطوراً، لتصبح رمزاً للصمود والحيوية.",
+
                 story2_title: "نبع ماء حصار",
                 story2_p1: "أحد أهم شرايين الحياة في المنطقة هو نبع حصار الطبيعي. هذا النبع الذي ينبع من سفوح الجبال، لم يوفر مياه الشرب النقية فحسب، بل هو أيضاً السبب الرئيسي لازدهار الزراعة.",
                 story2_p2: "يُنظر دائماً إلى ماء حصار كرمز للنقاء وحب الحياة من قبل السكان المحليين، وفي فصل الربيع يصبح منتزهاً طبيعياً ساحراً.",
+                
                 story3_title: "الشاعر ولي ديوانة",
                 story3_p1: "عند الحديث عن الأدب والحب الكردي النقي، يبرز اسم ولي ديوانة في القمة. هذا الشاعر الكبير، الذي يمثل رمزاً للحب والعاطفة، له ارتباط روحي وتاريخي عميق بهذه المنطقة.",
                 story3_p2: "أصبحت قصة ولي ديوانة وشم أسطورة حية تُروى جيلاً بعد جيل. قصائده مليئة بوصف جمال الطبيعة وألم الفراق.",
@@ -269,12 +302,19 @@
                 nav_logo: "Said Sadiq", nav_home: "Home", nav_history: "History", nav_explore: "Explore Places",
                 hero_title: "A Journey Through <span>History</span>",
                 hero_desc: "Discover the historical roots of Said Sadiq town, its natural resources, and the figures who carved their names in history.",
+                
                 story1_title: "History of Said Sadiq",
                 story1_p1: "Said Sadiq is one of the ancient districts in the Sulaymaniyah province, located in the heart of the Sharazur plain. It officially became a sub-district in 1955 and later a district due to rapid development and strategic importance.",
                 story1_p2: "The town's name dates back to a righteous man named Said Sadiq, whose shrine is located near the town. Due to its geographical location, it has always been an important commercial and agricultural center.",
+                
+                story4_title: "Destruction and the 1991 Rebirth",
+                story4_p1: "In the late 1980s, specifically in 1988, Said Sadiq, like many other areas in Kurdistan, faced a massive campaign of destruction by the Ba'ath regime. It was completely destroyed, and its residents were displaced.",
+                story4_p2: "However, after the great uprising in the spring of 1991, the patriotic people returned with iron will. From the ashes of the ruins, they restarted their lives and built a newer, larger, and more advanced Said Sadiq, which became a symbol of resilience and vitality.",
+
                 story2_title: "Hasar Spring",
                 story2_p1: "One of the most important lifelines in the region is the natural Hasar Spring. Emerging from the foothills, it provides not only pure drinking water but is also the main reason for agricultural prosperity.",
                 story2_p2: "Hasar water is always seen as a symbol of purity and vitality by the locals, and in the spring, it turns into a charming natural resort.",
+                
                 story3_title: "Poet Wali Dewana",
                 story3_p1: "When speaking of Kurdish literature and pure love, the name Wali Dewana stands at the top. This great poet, a symbol of love and affection, has a deep spiritual and historical connection to this region.",
                 story3_p2: "The story of Wali Dewana and Sham has become a living legend passed down from generation to generation. His poems are full of descriptions of nature's beauty and the pain of separation.",
@@ -384,5 +424,19 @@
             observer.observe(el);
         });
     </script>
+    <!-- تۆمارکردنی Service Worker بۆ PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>سس
 </body>
 </html>
