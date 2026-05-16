@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سەید سادق - مێژوو و کەلەپوور</title>
-    <!-- کۆدەکانی PWA -->
-    <link rel="manifest" href="manifest.json">
+   <!-- کۆدەکانی PWA -->
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0d9488">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- کۆدەکانی تایبەت بە ئایفۆن (Apple) -->
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+    <meta name="apple-mobile-web-app-title" content="سەید سادق">
     <!-- کتێبخانەی ئایکۆنەکان -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -428,7 +430,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registered with scope:', registration.scope);
                     })
@@ -437,6 +439,7 @@
                     });
             });
         }
-    </script>سس
+    </script>
+    
 </body>
 </html>
