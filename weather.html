@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سەید سادق - کەشوهەوا</title>
+    <meta name="theme-color" content="#0d9488">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body { -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
+
+        :root {
+            --primary: #0d9488; 
+            --primary-dark: #0f766e;
+            --secondary: #d97706; 
+            --text-main: #1e293b;
+            --transition: all 0.4s ease;
+        }
+
+        body.dark-mode { --text-main: #f8fafc; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; scroll-behavior: smooth; }
+        body { color: var(--text-main); overflow-x: hidden; transition: var(--transition); min-height: 100vh; }
+
+        /* باگراوندی داینامیکی */
+        .weather-bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -10; transition: background 1.5s ease; }
+        .bg-clear { background: linear-gradient(135deg, #7dd3fc, #e0f2fe); }
+        body.dark-mode .bg-clear { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .bg-rainy { background: linear-gradient(135deg, #64748b, #94a3b8); }
+        body.dark-mode .bg-rainy { background: linear-gradient(135deg, #334155, #475569); }
+        .bg-rainy::before {
+            content: ""; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background-image: linear-gradient(transparent, rgba(255,255,255,0.4) 50%, transparent);
+            background-size: 15px 60px; transform: rotate(15deg);
+            animation: rainDrop 0.5s linear infinite; z-index: -9;
+        }
+        .bg-night { background: linear-gradient(135deg, #0f172a, #1e1b4b); }
+        .bg-night::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -9;
+            background-image: radial-gradient(2px 2px at 10% 20%, #fff, transparent), radial-gradient(1.5px 1.5px at 30% 60%, #fff, transparent), radial-gradient(2px 2px at 70% 30%, #fff, transparent), radial-gradient(1px 1px at 80% 80%, #fff, transparent), radial-gradient(2px 2px at 90% 10%, #fff, transparent);
+            background-size: 250px 250px; animation: starsTwinkle 3s infinite alternate;
+        }
+        @keyframes rainDrop { 0% { transform: translateY(0) rotate(15deg); } 100% { transform: translateY(500px) rotate(15deg); } }
+        @keyframes starsTwinkle { 0% { opacity: 0.2; } 100% { opacity: 1; transform: scale(1.05); } }
+
+        /* دیزاینی شوشەیی تاریک کراو بۆ ئەوەی نووسینە سپییەکان دەربکەون */
+        .glass-panel { 
+            background: rgba(0, 0, 0, 0.25); /* شوشەی تاریک */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); 
+            color: #ffffff; /* نووسینی ناو کاردەکان دەبنە سپی */
+        }
+        body.dark-mode .glass-panel { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* نێڤبار */
+        nav { position: fixed; width: 100%; top: 0; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: var(--transition); }
+        nav.scrolled { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 4px 30px rgba(0,0,0,0.08); padding: 1rem 5%; }
+        body.dark-mode nav.scrolled { background: rgba(15, 23, 42, 0.9); }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center;}
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 1.1rem; transition: var(--transition); position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -8px; right: 0; width: 0; height: 3px; background: var(--secondary); transition: var(--transition); border-radius: 5px;}
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a.active { color: var(--primary); }
+        .nav-controls { display: flex; align-items: center; gap: 15px; margin-inline-start: auto; margin-inline-end: 20px;}
+        .theme-toggle { background: none; border: none; color: var(--text-main); font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
+        .lang-switch { background: rgba(255,255,255,0.5); color: var(--text-main); border: 1px solid rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 8px; cursor: pointer; outline: none; font-weight: 600; backdrop-filter: blur(5px); }
+        body.dark-mode .lang-switch { background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.2); color: white;}
+        .menu-toggle { display: none; font-size: 2rem; color: var(--text-main); cursor: pointer; }
+
+        @media (max-width: 900px) {
+            .nav-controls { margin-inline-start: 0; margin-inline-end: 15px;}
+            .menu-toggle { display: block; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: rgba(15, 23, 42, 0.98); flex-direction: column; justify-content: center; align-items: center; transition: right 0.5s; }
+            html[dir="ltr"] .nav-links { right: auto; left: -100%; }
+            .nav-links.active { right: 0; }
+            html[dir="ltr"] .nav-links.active { left: 0; }
+            .nav-links a { color: #ffffff !important; font-size: 1.5rem; padding: 1rem; }
+        }
+
+        /* سەردێڕ بە نووسینی سپی و سێبەر */
+        .page-header { padding: 8rem 5% 3rem; text-align: center; }
+        .page-title { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .page-title span { color: #fcd34d; text-shadow: 0 4px 15px rgba(0,0,0,0.3); } /* وشەی سەید سادق بە زەردێکی جوان */
+        .page-desc { font-size: 1.1rem; max-width: 600px; margin: 0 auto; font-weight: 600; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.4); opacity: 0.95; }
+
+        /* بەشی کەشوهەوا */
+        .weather-container { max-width: 1000px; margin: 0 auto 5rem; padding: 0 5%; }
+        .loading { text-align: center; font-size: 1.5rem; color: #ffffff; padding: 3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+        /* کەشوهەوای ئێستا */
+        .current-weather { border-radius: 20px; padding: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; margin-bottom: 1.5rem; display: none; }
+        .weather-main { display: flex; align-items: center; gap: 1.5rem; }
+        .weather-icon { font-size: 5rem; color: #ffffff; text-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .temp { font-size: 4.5rem; font-weight: 900; line-height: 1; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .desc { font-size: 1.3rem; margin-top: 0.5rem; font-weight: 600; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .city-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        
+        .weather-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 15px; }
+        .detail-item { display: flex; align-items: center; gap: 1rem; font-size: 1.1rem; font-weight: 600; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .detail-item i { font-size: 1.5rem; color: #fcd34d; }
+
+        /* --- نیشاندەری تەندروستی (UV و کوالێتی هەوا) --- */
+        .health-indicators { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; display: none; }
+        .health-card { border-radius: 15px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem; transition: var(--transition); }
+        .health-card i { font-size: 2.5rem; }
+        .health-info h4 { font-size: 1rem; margin-bottom: 0.3rem; color: rgba(255,255,255,0.8); }
+        .health-info .h-value { font-size: 1.3rem; font-weight: bold; margin-bottom: 0.2rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .health-info .h-desc { font-size: 0.9rem; font-weight: 600; color: #ffffff; }
+        
+        /* ڕەنگەکانی مەترسی */
+        .status-good i { color: #34d399; } /* سەوزێکی کاڵ بۆ سەر شوشە */
+        .status-mod i { color: #fcd34d; } /* زەرد */
+        .status-bad i { color: #f87171; } /* سوور */
+
+        /* ئامۆژگاری زیرەک */
+        .smart-advice { border-radius: 15px; padding: 1.5rem; margin-bottom: 3rem; display: none; align-items: center; gap: 1.2rem; }
+        .smart-advice i { font-size: 2.5rem; color: #fcd34d; animation: pulse 2s infinite; }
+        .smart-advice p { font-size: 1.1rem; line-height: 1.6; color: #ffffff; font-weight: 600; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+
+        /* پێشبینی ٧ ڕۆژی داهاتوو */
+        .forecast-title { font-size: 1.8rem; margin-bottom: 1.5rem; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.4); display: none; font-weight: bold; }
+        .forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; display: none; }
+        .forecast-card { padding: 1.5rem 1rem; border-radius: 15px; text-align: center; transition: var(--transition); }
+        .forecast-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); border-color: #ffffff; }
+        .fc-day { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .fc-icon { font-size: 2.5rem; color: #ffffff; margin: 1rem 0; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .fc-temps { font-size: 1.1rem; font-weight: bold; display: flex; justify-content: center; gap: 0.5rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .fc-min { opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            .current-weather { flex-direction: column; text-align: center; justify-content: center; }
+            .weather-details, .health-indicators { grid-template-columns: 1fr; width: 100%; }
+            .smart-advice { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- باگراوندی گشتی کەشوهەوا -->
+    <div id="weather-bg" class="weather-bg-overlay bg-clear"></div>
+
+    <!-- نێڤبار -->
+    <nav id="navbar" class="scrolled">
+        <a href="index.html" class="logo"><i class="fa-solid fa-leaf"></i> <span data-i18n="nav_logo">سەید سادق</span></a>
+        <div class="nav-controls">
+            <select id="lang-switch" class="lang-switch">
+                <option value="ku">کوردی</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+            <button id="theme-toggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </div>
+        <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars-staggered"></i></div>
+        <ul class="nav-links" id="nav-list">
+            <li><a href="index.html" data-i18n="nav_home">سەرەتا</a></li>
+            <li><a href="history.html" data-i18n="nav_history">مێژوو</a></li>
+            <li><a href="explore.html" data-i18n="nav_explore">گەڕان و شوێنەکان</a></li>
+            <li><a href="gallery.html" data-i18n="nav_gallery">گەلەری</a></li>
+            <li><a href="weather.html" class="active" data-i18n="nav_weather">کەشوهەوا</a></li>
+        </ul>
+    </nav>
+
+    <!-- سەردێڕ -->
+    <header class="page-header">
+        <h1 class="page-title" data-i18n="page_title">کەشوهەوای <span>سەید سادق</span></h1>
+        <p class="page-desc" data-i18n="page_desc">پێشبینی ڕاستەوخۆی کەشوهەوای قەزای سەید سادق بۆ ئەمڕۆ و ٧ ڕۆژی داهاتوو.</p>
+    </header>
+
+    <!-- بەشی کەشوهەوا -->
+    <div class="weather-container">
+        
+        <div id="loading" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> زانیارییەکان وەردەگیرێن...</div>
+
+        <!-- کەشوهەوای ئێستا -->
+        <div class="current-weather glass-panel" id="current-weather">
+            <div>
+                <div class="city-name"><i class="fa-solid fa-location-dot"></i> <span data-i18n="city_name">سەید سادق، عێراق</span></div>
+                <div class="weather-main">
+                    <i id="cw-icon" class="weather-icon fa-solid fa-sun"></i>
+                    <div>
+                        <div class="temp"><span id="cw-temp">0</span>°C</div>
+                        <div class="desc" id="cw-desc">ساماڵ</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weather-details">
+                <div class="detail-item"><i class="fa-solid fa-droplet"></i> <div><span data-i18n="humidity">شێ</span>: <span id="cw-humidity">0</span>%</div></div>
+                <div class="detail-item"><i class="fa-solid fa-wind"></i> <div><span data-i18n="wind">خێرایی با</span>: <span id="cw-wind">0</span> km/h</div></div>
+                <div class="detail-item"><i class="fa-solid fa-temperature-half"></i> <div><span data-i18n="feels_like">هەستپێکراو</span>: <span id="cw-feels">0</span>°C</div></div>
+                <div class="detail-item"><i class="fa-solid fa-cloud-showers-heavy"></i> <div><span data-i18n="rain">باران</span>: <span id="cw-rain">0</span> mm</div></div>
+            </div>
+        </div>
+
+        <!-- نیشاندەری تەندروستی (UV و کوالێتی هەوا) -->
+        <div class="health-indicators" id="health-indicators">
+            <div class="health-card glass-panel" id="uv-card">
+                <i class="fa-solid fa-sun-plant-wilt"></i>
+                <div class="health-info">
+                    <h4 data-i18n="uv_title">تیشکی سەروو وەنەوشەیی</h4>
+                    <div class="h-value" id="uv-value">0 UV</div>
+                    <div class="h-desc" id="uv-desc">سەلامەت</div>
+                </div>
+            </div>
+            
+            <div class="health-card glass-panel" id="aqi-card">
+                <i class="fa-solid fa-mask-face"></i>
+                <div class="health-info">
+                    <h4 data-i18n="aqi_title">کوالێتی هەوا (تۆز)</h4>
+                    <div class="h-value" id="aqi-value">پاک</div>
+                    <div class="h-desc" id="aqi-desc">کەشێکی پاکە</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ئامۆژگاری زیرەک -->
+        <div class="smart-advice glass-panel" id="smart-advice">
+            <i class="fa-regular fa-lightbulb"></i>
+            <p id="advice-text">بیردەکرێتەوە...</p>
+        </div>
+
+        <!-- ٧ ڕۆژی داهاتوو -->
+        <h2 class="forecast-title" id="forecast-title" data-i18n="forecast_title">پێشبینی ٧ ڕۆژی داهاتوو</h2>
+        <div class="forecast-grid" id="forecast-grid"></div>
+
+    </div>
+
+    <!-- فووتەر لێرە دابنێ -->
+
+
+    <!-- جاڤاسکریپت -->
+    <script>
+        const translations = {
+            ku: {
+                nav_logo: "سەید سادق", nav_home: "سەرەتا", nav_history: "مێژوو", nav_explore: "گەڕان و شوێنەکان", nav_gallery: "گەلەری", nav_weather: "کەشوهەوا", nav_contact: "پەیوەندی و ئەی ئای",
+                page_title: "کەشوهەوای <span>سەید سادق</span>", page_desc: "پێشبینی ڕاستەوخۆی کەشوهەوای قەزای سەید سادق بۆ ئەمڕۆ و ٧ ڕۆژی داهاتوو.",
+                city_name: "سەید سادق، عێراق", humidity: "شێ", wind: "خێرایی با", feels_like: "هەستپێکراو", rain: "باران", forecast_title: "پێشبینی ٧ ڕۆژی داهاتوو",
+                uv_title: "تیشکی سەروو وەنەوشەیی", aqi_title: "کوالێتی هەوا (تۆز)"
+            },
+            ar: {
+                nav_logo: "سيد صادق", nav_home: "الرئيسية", nav_history: "التاريخ", nav_explore: "الاستكشاف", nav_gallery: "معرض الصور", nav_weather: "الطقس", nav_contact: "التواصل والذكاء الاصطناعي",
+                page_title: "طقس <span>سيد صادق</span>", page_desc: "التوقعات الجوية المباشرة لقضاء سيد صادق لليوم و ٧ أيام قادمة.",
+                city_name: "سيد صادق، العراق", humidity: "الرطوبة", wind: "سرعة الرياح", feels_like: "الملموسة", rain: "المطر", forecast_title: "توقعات الـ ٧ أيام القادمة",
+                uv_title: "الأشعة فوق البنفسجية", aqi_title: "جودة الهواء (غبار)"
+            },
+            en: {
+                nav_logo: "Said Sadiq", nav_home: "Home", nav_history: "History", nav_explore: "Explore", nav_gallery: "Gallery", nav_weather: "Weather", nav_contact: "Contact & AI",
+                page_title: "Weather in <span>Said Sadiq</span>", page_desc: "Live weather forecast for Said Sadiq for today and the next 7 days.",
+                city_name: "Said Sadiq, Iraq", humidity: "Humidity", wind: "Wind Speed", feels_like: "Feels Like", rain: "Rain", forecast_title: "7-Day Forecast",
+                uv_title: "UV Index", aqi_title: "Air Quality (Dust)"
+            }
+        };
+
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeBtn.querySelector('i');
+        const langSwitch = document.getElementById('lang-switch');
+
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        const savedLang = localStorage.getItem('lang') || 'ku';
+        langSwitch.value = savedLang;
+        setLanguage(savedLang);
+
+        langSwitch.addEventListener('change', (e) => {
+            setLanguage(e.target.value);
+            localStorage.setItem('lang', e.target.value);
+            if(currentFetchedCode !== null) { 
+                updateSmartAdvice(e.target.value); 
+                updateHealthIndicators(currentUV, currentAQI, e.target.value);
+            }
+        });
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+            });
+        }
+
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        const menuIconMob = mobileMenu.querySelector('i');
+        mobileMenu.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            if(navList.classList.contains('active')){ menuIconMob.classList.replace('fa-bars-staggered', 'fa-xmark'); } else { menuIconMob.classList.replace('fa-xmark', 'fa-bars-staggered'); }
+        });
+
+        const WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=35.3703&longitude=45.9603&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=auto";
+        const AQI_API = "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=35.3703&longitude=45.9603&current=pm10,dust";
+
+        const daysKurdish = ["یەکشەممە", "دووشەممە", "سێشەممە", "چوارشەممە", "پێنجشەممە", "هەینی", "شەممە"];
+        let currentFetchedCode = null, currentFetchedTemp = null, currentUV = 0, currentAQI = 0;
+
+        function getWeatherDetails(code, isDay = 1) {
+            const conditions = {
+                0: { text: "ساماڵ", icon: isDay ? "fa-sun" : "fa-moon" },
+                1: { text: "کەمێک هەور", icon: isDay ? "fa-cloud-sun" : "fa-cloud-moon" },
+                2: { text: "نیوە هەور", icon: "fa-cloud" },
+                3: { text: "هەوراوی", icon: "fa-cloud" },
+                45: { text: "تەمومژ", icon: "fa-smog" }, 48: { text: "تەمی بەستوو", icon: "fa-smog" },
+                51: { text: "نمە باران", icon: "fa-cloud-rain" }, 53: { text: "بارانی مامناوەند", icon: "fa-cloud-rain" }, 55: { text: "بارانی بەخوڕ", icon: "fa-cloud-showers-heavy" },
+                61: { text: "باران", icon: "fa-cloud-rain" }, 63: { text: "بارانی بەخوڕ", icon: "fa-cloud-showers-heavy" }, 65: { text: "بارانی زۆر بەخوڕ", icon: "fa-cloud-showers-heavy" },
+                71: { text: "بەفرێکی کەم", icon: "fa-snowflake" }, 73: { text: "بەفربارین", icon: "fa-snowflake" }, 75: { text: "بەفری قورس", icon: "fa-snowflake" },
+                95: { text: "هەورە تریشقە", icon: "fa-cloud-bolt" }
+            };
+            return conditions[code] || { text: "نادیار", icon: "fa-cloud" };
+        }
+
+        function updateHealthIndicators(uv, pm10, lang) {
+            const uvCard = document.getElementById('uv-card');
+            const uvVal = document.getElementById('uv-value');
+            const uvDesc = document.getElementById('uv-desc');
+            const aqiCard = document.getElementById('aqi-card');
+            const aqiVal = document.getElementById('aqi-value');
+            const aqiDesc = document.getElementById('aqi-desc');
+
+            uvCard.className = 'health-card glass-panel';
+            aqiCard.className = 'health-card glass-panel';
+
+            uvVal.innerText = uv + " UV";
+            if(uv <= 2) {
+                uvCard.classList.add('status-good');
+                uvDesc.innerText = lang === 'en' ? "Safe" : (lang === 'ar' ? "آمن" : "سەلامەتە");
+            } else if(uv <= 5) {
+                uvCard.classList.add('status-mod');
+                uvDesc.innerText = lang === 'en' ? "Use Sunscreen" : (lang === 'ar' ? "استخدم واقي شمس" : "دژەخۆر بەکاربهێنە");
+            } else {
+                uvCard.classList.add('status-bad');
+                uvDesc.innerText = lang === 'en' ? "High Risk!" : (lang === 'ar' ? "خطر عالي!" : "مەترسیدارە!");
+            }
+
+            if(pm10 <= 30) {
+                aqiCard.classList.add('status-good');
+                aqiVal.innerText = lang === 'en' ? "Good" : (lang === 'ar' ? "جيد" : "پاکە");
+                aqiDesc.innerText = lang === 'en' ? "Perfect air quality" : (lang === 'ar' ? "هواء نقي جداً" : "کەشێکی تەواو پاکە");
+            } else if(pm10 <= 70) {
+                aqiCard.classList.add('status-mod');
+                aqiVal.innerText = lang === 'en' ? "Moderate" : (lang === 'ar' ? "متوسط" : "ئاساییە");
+                aqiDesc.innerText = lang === 'en' ? "Acceptable air" : (lang === 'ar' ? "جودة هواء مقبولة" : "تۆزێکی کەم هەیە");
+            } else {
+                aqiCard.classList.add('status-bad');
+                aqiVal.innerText = lang === 'en' ? "Dusty/Poor" : (lang === 'ar' ? "مغبر/سيء" : "تۆزاوییە");
+                aqiDesc.innerText = lang === 'en' ? "Wear a mask" : (lang === 'ar' ? "ارتدِ كمامة" : "تکایە ماسک بەکاربهێنە");
+            }
+        }
+
+        function updateSmartAdvice(lang) {
+            const temp = currentFetchedTemp, code = currentFetchedCode;
+            let advice = "";
+            if (code >= 71 && code <= 77 || temp <= 5) advice = lang === 'en' ? "It's cold! Drive safely outside the city." : (lang === 'ar' ? "الجو بارد! يرجى الحذر أثناء القيادة." : "کەشەکە زۆر ساردە، تکایە ئاگاداری شۆفێری بە.");
+            else if (code >= 51 && code <= 65 || code >= 95) advice = lang === 'en' ? "Rainy day. Perfect time for tea at a local cafe." : (lang === 'ar' ? "يوم ممطر. وقت مناسب لشرب الشاي في مقهى." : "کەشێکی باراناوییە، کاتێکی گونجاوە بۆ چایەک لە ناوشار.");
+            else if (currentAQI > 70) advice = lang === 'en' ? "The air is dusty today, better stay indoors or wear a mask." : (lang === 'ar' ? "الجو مغبر اليوم، من الأفضل البقاء في الداخل أو ارتداء كمامة." : "کەشەکە تەپوتۆزە، باشترە نەچیتە دەرەوە یان ماسک ببەستیت.");
+            else advice = lang === 'en' ? "Great weather! Perfect for a visit to Hasar spring." : (lang === 'ar' ? "طقس رائع! مثالي لزيارة نبع حصار." : "کەشێکی نایابە بۆ سەردانکردنی سەرچاوەی ئاوی حەسار یان گەڕان بەناو بازاڕی سەید سادق.");
+            document.getElementById('advice-text').innerText = advice;
+        }
+
+        function updateOverallBackground(code, isDay) {
+            const bgOverlay = document.getElementById('weather-bg');
+            bgOverlay.className = 'weather-bg-overlay'; 
+            if (isDay === 0) bgOverlay.classList.add('bg-night'); 
+            else if ((code >= 51 && code <= 77) || code >= 95) bgOverlay.classList.add('bg-rainy'); 
+            else bgOverlay.classList.add('bg-clear'); 
+        }
+
+        async function fetchWeather() {
+            try {
+                const [weatherRes, aqiRes] = await Promise.all([ fetch(WEATHER_API), fetch(AQI_API) ]);
+                if (!weatherRes.ok || !aqiRes.ok) throw new Error("Error fetching data");
+                
+                const data = await weatherRes.json();
+                const aqiData = await aqiRes.json();
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('current-weather').style.display = 'flex';
+                document.getElementById('health-indicators').style.display = 'grid'; 
+                document.getElementById('smart-advice').style.display = 'flex';
+                document.getElementById('forecast-title').style.display = 'block';
+                document.getElementById('forecast-grid').style.display = 'grid';
+
+                const current = data.current;
+                currentFetchedCode = current.weather_code;
+                currentFetchedTemp = Math.round(current.temperature_2m);
+                currentUV = Math.round(data.daily.uv_index_max[0]); 
+                currentAQI = Math.round(aqiData.current.pm10); 
+                
+                const weatherInfo = getWeatherDetails(currentFetchedCode, current.is_day);
+                
+                document.getElementById('cw-temp').innerText = currentFetchedTemp;
+                document.getElementById('cw-desc').innerText = weatherInfo.text;
+                document.getElementById('cw-icon').className = `weather-icon fa-solid ${weatherInfo.icon}`;
+                document.getElementById('cw-humidity').innerText = current.relative_humidity_2m;
+                document.getElementById('cw-wind').innerText = current.wind_speed_10m;
+                document.getElementById('cw-feels').innerText = Math.round(current.apparent_temperature);
+                document.getElementById('cw-rain').innerText = current.precipitation;
+
+                updateOverallBackground(currentFetchedCode, current.is_day);
+                updateHealthIndicators(currentUV, currentAQI, document.documentElement.lang);
+                updateSmartAdvice(document.documentElement.lang);
+
+                const daily = data.daily;
+                const grid = document.getElementById('forecast-grid');
+                grid.innerHTML = ''; 
+
+                for(let i = 1; i < daily.time.length; i++) {
+                    const dateObj = new Date(daily.time[i]);
+                    const dayName = daysKurdish[dateObj.getDay()];
+                    const maxTemp = Math.round(daily.temperature_2m_max[i]);
+                    const minTemp = Math.round(daily.temperature_2m_min[i]);
+                    const dailyInfo = getWeatherDetails(daily.weather_code[i], 1); 
+
+                    grid.innerHTML += `
+                        <div class="forecast-card glass-panel">
+                            <div class="fc-day">${dayName}</div>
+                            <i class="fc-icon fa-solid ${dailyInfo.icon}"></i>
+                            <div class="fc-temps"><span>${maxTemp}°</span> <span class="fc-min">${minTemp}°</span></div>
+                            <div style="font-size: 0.85rem; font-weight: 600; margin-top: 5px; color: #ffffff;">${dailyInfo.text}</div>
+                        </div>`;
+                }
+            } catch (error) {
+                document.getElementById('loading').innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> هەڵەیەک ڕوویدا، تکایە دواتر هەوڵبدەرەوە.`;
+                console.error(error);
+            }
+        }
+
+        window.addEventListener('load', fetchWeather);
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74))) return false; };
+    </script>
+</body>
+</html>
