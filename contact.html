@@ -383,48 +383,37 @@
             navList.classList.toggle('active');
             if(navList.classList.contains('active')){ menuIconMob.classList.replace('fa-bars-staggered', 'fa-xmark'); } else { menuIconMob.classList.replace('fa-xmark', 'fa-bars-staggered'); }
         });
-
-        // ناردنی فیدباک بەبێ ئەوەی وێبسایتەکە داون بێت یان ڕیفرێش بێت
-        document.getElementById('feedback-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // ڕێگری دەکات لە ڕیفرێش بوونەوەی پەڕەکە
-            
-            const btn = document.getElementById('submit-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> خەریکی ناردنە...';
-            
-            const nameValue = document.getElementById('sender-name').value;
-            const msgValue = document.getElementById('sender-msg').value;
-
-            fetch("https://formsubmit.co/ajax/zhyerfaraj342@gmail.com", {
-                method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    ناوی_نێرەر: nameValue,
-                    نامە: msgValue,
-                    _captcha: false // بۆ لابردنی وێنەی دڵنیابوونەوە
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // کاتێک سەرکەوتوو بوو
-                document.getElementById('success-msg').style.display = 'block';
-                this.reset(); // پاککردنەوەی فۆڕمەکە
-                btn.innerHTML = originalText;
-                
-                // شاردنەوەی نامەی سەرکەوتن دوای 5 چرکە
-                setTimeout(() => {
-                    document.getElementById('success-msg').style.display = 'none';
-                }, 5000);
-            })
-            .catch(error => {
-                console.log(error);
-                btn.innerHTML = 'هەڵەیەک ڕوویدا! دووبارە هەوڵبدەرەوە';
-                setTimeout(() => { btn.innerHTML = originalText; }, 3000);
-            });
-        });
+fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+        access_key: "a48c6e36-633c-49dc-b96a-75e5526879a6",
+        ناوی_نێرەر: nameValue,
+        نامە: msgValue
+    })
+})
+.then(response => response.json())
+.then(data => {
+    if (data.success) {
+        document.getElementById('success-msg').style.display = 'block';
+        document.getElementById('feedback-form').reset();
+        btn.innerHTML = originalText;
+        
+        setTimeout(() => {
+            document.getElementById('success-msg').style.display = 'none';
+        }, 5000);
+    } else {
+        throw new Error("سەرکەوتوو نەبوو");
+    }
+})
+.catch(error => {
+    console.log(error);
+    btn.innerHTML = 'هەڵەیەک ڕوویدا! دووبارە هەوڵبدەرەوە';
+    setTimeout(() => { btn.innerHTML = originalText; }, 3000);
+});
     </script>
 </body>
 </html>
