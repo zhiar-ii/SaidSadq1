@@ -204,28 +204,13 @@
         </div>
 
        <!-- بەشی فیدباک فۆڕم -->
-        <div class="feedback-container">
-            <h3 data-i18n="form_title">سەرنجەکانت بنێرە</h3>
-            <p data-i18n="form_desc">ڕای تۆ بۆ ئێمە گرنگە، تکایە سەرنج و پێشنیارەکانت بنووسە.</p>
-            
-            <form id="feedback-form">
-                <div class="input-group">
-                    <label data-i18n="form_name">ناوت (ئارەزوومەندانە)</label>
-                    <input type="text" id="sender-name" name="name" placeholder="ناوی خۆت بنووسە">
-                </div>
-                <div class="input-group">
-                    <label data-i18n="form_msg">سەرنج و فیدباک *</label>
-                    <textarea id="sender-msg" name="message" required placeholder="چیت هەیە بۆمان بنووسە..."></textarea>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="submit-btn" data-i18n="form_btn"><i class="fa-solid fa-envelope-open-text"></i> ناردنی فیدباک</button>
-            </form>
-
-            <!-- نامەی ناردنی سەرکەوتوو -->
-            <div id="success-msg">پەیامەکەت بە سەرکەوتوویی نێردرا! سوپاس بۆ فیدباکەکەت.</div>
-        </div>
-
-    </div>
+       <form action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="6db435a1-0675-4c36-972a-8d64e35e36a8">
+  <input type="text" name="name" required>
+  <input type="email" name="email" required>
+  <textarea name="message" required></textarea>
+  <button type="submit">Submit Form</button>
+</form>
 
     <!-- فووتەر -->
     <footer>
